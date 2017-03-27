@@ -82,7 +82,7 @@ erros=0
 for i in `ls -1 arq*in`; do
     arq=${i%.in}
 
-    cmp=$(diff $arq.out $arq.out)
+    cmp=$(diff $arq.out $arq.res)
 
     if [ "$cmp" != "" ]; then
         echo
