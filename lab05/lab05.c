@@ -26,7 +26,7 @@ int main()
 	scanf("%d %d", &t, &c); // leitura do tempo de duracao do escudo e da capacidade de combustivel necessaria
 
 	int i;
-	for(i = 0; i < t; i++) // interando atraves do tempo de duracao do escudo
+	for(i = 1; i <= t; i++) // interando atraves do tempo de duracao do escudo
 	{
 		scanf("%d", &fluxo); // leitura do fluxo recebido no tempo atual e posterior atribuicao
 		acumulado += fluxo;
@@ -34,17 +34,12 @@ int main()
 		if(acumulado >= c) // se o acumulado for igual a quantidade necessaria para a nave entrar em dobra
 				   // a nave podera escapar
 		{
-			printf("sim\n%d\n", i+1);
+			printf("sim\n%d\n", i);
 			return 0;
-
-			//break; // mind note -> break nao volta para incremento/verificacao
 		}
-
-		//scanf("%d", &fluxo); // leitura do fluxo recebido no tempo atual e posterior atribuicao
-		//acumulado += fluxo;
-
 	}
 
+	// se a execução do programa chegar ate aqui a nave nao sera capaz de escapar
 	printf("nao\n%d\n", t + 1);
 	return 0;
 }
