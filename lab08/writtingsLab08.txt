@@ -1,0 +1,10 @@
+alturas válidas -> >=
+	- para losango -> altura deve ser ímpar
+
+molduras
+	largura -> (2*h-1)+4
+		- para losango -> (h+4)
+
+- lembrar do \n no final
+
+- desenhar molduras com os espaçamentos corretos
