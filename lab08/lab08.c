@@ -1,160 +1,179 @@
 #include <stdio.h>
 
-void desenhaQuadrado(int altura)
+/*
+		Este programa tem por objetivo desenhar figuras geométricas simétricas tendo como base
+	a altura dada na entrada. O programa consegue desenhar quadrados, triangulo e losangos, sendo
+	que este ultimo deve ter uma altura impar.
+		Como saida, o programa apresenta a figura requisitada na entrada com sua respectiva altura
+	formada por '*'s dentro de uma moldura de '.'s
+
+	Nome : Pedro Barros Bastos		RA : 204481
+*/
+
+void desenhaLinhaQuadrado(int larguraMoldura)
 {
-	int larguraMoldura = (2*altura-1)+4;
-	int alturaMoldura = altura+2;
-
-	for(int i=1; i<=alturaMoldura; i++)
-		if(i == 1 || i == alturaMoldura)
-		{
-			for(int j=1; j<=larguraMoldura; j++)
-				printf(".");
-
-			printf("\n");
-		}
-		else
-		{
-			for(int j=1; j<=larguraMoldura; j++)
+	//desenho dos asteriscos neste loop
+	for(int j=1; j<=larguraMoldura; j++)
 			{
 				if(j == 1 || j == larguraMoldura)
 					printf(".");
 				else
 				{
-					if(j % 2 == 0)
+					if(j % 2 == 0) //desenho dos espacos
 						printf(" ");
 					else
 						printf("*");
 				}
 			}
-
-			printf("\n");
-		}
 }
 
-void desenhaTriangulo(int altura)
+void desenhaLinhaTriangulo(int larguraMoldura, int linhaAtual)
 {
-	int larguraMoldura = (2*altura-1)+4;
-	int alturaMoldura = altura+2;
+	int qtdCaracteresParaDesenho = 2*(linhaAtual-2) + 1;
 
-	for(int i=1; i<=alturaMoldura; i++)
-		if(i == 1 || i == alturaMoldura)
-		{
-			for(int j=1; j<=larguraMoldura; j++)
-				printf(".");
+	//calculo da quantidade de espacos que deverao ser desenhados
+	int qtdEspacos = (larguraMoldura - 2) - qtdCaracteresParaDesenho;
 
-			printf("\n");
-		}
+	printf(".");
+
+	//desenho dos espacos
+	for(int j=1; j <= qtdEspacos/2; j++)
+		printf(" ");
+
+	//desenho dos asteriscos neste loop
+	for(int k=1; k <= qtdCaracteresParaDesenho; k++)
+		if(k % 2 != 0)
+			printf("*");
 		else
-		{
-			int qtdCaracteresParaDesenho = 2*(i-2) + 1;
-			int qtdEspacos = (larguraMoldura - 2) - qtdCaracteresParaDesenho;
+			printf(" ");
 
-			printf(".");
+	//desenho dos espacos
+	for(int j=1; j <= qtdEspacos/2; j++)
+		printf(" ");
 
-			for(int j=1; j <= qtdEspacos/2; j++)
-				printf(" ");
-
-			//desenhar os asteriscos aqui
-			for(int k=1; k <= qtdCaracteresParaDesenho; k++)
-				if(k % 2 != 0)
-					printf("*");
-				else
-					printf(" ");
-
-			for(int j=1; j <= qtdEspacos/2; j++)
-				printf(" ");
-
-			printf(".");
-			printf("\n");
-		}
+	printf(".");
 }
 
-void desenhaLosango(int altura)
+void desenhaLinhaLosango(int larguraMoldura, int linhaAtual, int alturaLosango)
 {
-	if(altura % 2 != 0)
-	{
-		int larguraMoldura = altura+4;
-		int alturaMoldura = altura+2;
+	int qtdCaracteresParaDesenho;
 
-		for(int i=1; i<=alturaMoldura; i++)
-			if(i == 1 || i == alturaMoldura)
-			{
-				for(int j=1; j<=larguraMoldura; j++)
-					printf(".");
-	
-				printf("\n");
-			}
-			else
-			{
-				int qtdCaracteresParaDesenho;
-				if(i <= (altura/2)+2)
-					//qtdCaracteresParaDesenho = 2*(i-2) + 1;
-					qtdCaracteresParaDesenho = 2*i - 3;
-				else
-				{
-					int distanciaCentroHorizontal = i - ((altura/2)+2);
-					int linhaOpostaAoCentroHorizontal = i-2*distanciaCentroHorizontal;
-					//qtdCaracteresParaDesenho = 2*(i-2*distanciaCentroHorizontal) - 3;
-					qtdCaracteresParaDesenho = 2*linhaOpostaAoCentroHorizontal - 3;
-				}
-
-				int qtdEspacos = (larguraMoldura - 2) - qtdCaracteresParaDesenho;
-
-				printf(".");
-
-				for(int j=1; j <= qtdEspacos/2; j++)
-					printf(" ");
-
-				//desenhar os asteriscos aqui
-				for(int k=1; k <= qtdCaracteresParaDesenho; k++)
-					if(k % 2 != 0)
-						printf("*");
-					else
-						printf(" ");
-
-				for(int j=1; j <= qtdEspacos/2; j++)
-					printf(" ");
-
-				printf(".");
-				printf("\n");
-			}
-	}
+	if(linhaAtual <= (alturaLosango/2)+2)
+		//funçao para calculo da quantidade de caracteres por linha
+		//f(linha) = 2*(linhaAtual-2) + 1; ->> f(linha) = 2*linhaAtual - 3
+		qtdCaracteresParaDesenho = 2*linhaAtual - 3;
 	else
-		printf("entrada invalida\n");
+	{
+		//como a linha atual ja passou da linha central, deve-se pegar
+		//o numero da linha oposta ao centro para que consigamos decrementar a
+		//quantidade de caracteres que deverao ser desenhados por linha
+
+		int distanciaCentroHorizontal = linhaAtual - ((alturaLosango/2)+2);
+		int linhaOpostaAoCentroHorizontal = linhaAtual-2*distanciaCentroHorizontal;
+		qtdCaracteresParaDesenho = 2*linhaOpostaAoCentroHorizontal - 3;
+	}
+
+	//calculo da quantidade de espacos que deverao ser desenhados
+	int qtdEspacos = (larguraMoldura - 2) - qtdCaracteresParaDesenho;
+
+	printf(".");
+
+	//desenho dos espacos
+	for(int j=1; j <= qtdEspacos/2; j++)
+		printf(" ");
+
+	//desenho dos asteriscos neste loop
+	for(int k=1; k <= qtdCaracteresParaDesenho; k++)
+		if(k % 2 != 0)
+			printf("*");
+		else
+			printf(" ");
+
+	//desenho dos espacos
+	for(int j=1; j <= qtdEspacos/2; j++)
+		printf(" ");
+
+	printf(".");
 }
 
 int main()
 {
 	char figura;
-	int h;
+	int altura;
 
-	scanf("%c %d", &figura, &h);
+	scanf("%c %d", &figura, &altura);
 
-	if(h < 2)
+	if(altura < 2)
 		printf("entrada invalida\n");
 	else
-		switch(figura)
+	{
+
+		if(figura == 'Q' || figura == 'q' ||
+		   figura == 'T' || figura == 't' ||
+		   figura == 'L' || figura == 'l')
 		{
-			case 'Q':
-				desenhaQuadrado(h);
-				break;
-			case 'q':
-				desenhaQuadrado(h);
-				break;
-			case 'T':
-				desenhaTriangulo(h);
-				break;
-			case 't':
-				desenhaTriangulo(h);
-				break;
-			case 'L':
-				desenhaLosango(h);
-				break;
-			case 'l':
-				desenhaLosango(h);
-				break;
-			default :
-				printf("entrada invalida\n");
+			//definicao das medidas da moldura, com base na altura e no tipo de
+			//figura passadas
+
+			int alturaMoldura = altura + 2;
+			int larguraMoldura;
+
+			if(figura == 'L' || figura == 'l')
+			{
+				if(altura % 2 != 0)
+					larguraMoldura = altura + 4;
+				else
+				{
+					printf("entrada invalida\n");
+					return 0;
+				}
+			}
+			else
+				larguraMoldura = (2*altura-1)+4;
+
+			//inicio dos processos para desenho de figuras
+
+			for(int i=1; i<=alturaMoldura; i++) //loop gerenciador de linhas
+				if(i == 1 || i == alturaMoldura) //se for a primeira ou a ultima linha, so desenha pontos
+				{
+					for(int j=1; j<=larguraMoldura; j++)
+						printf(".");
+
+					printf("\n");
+				}
+				else
+				{
+					// se nao for a primeira ou ultima linha, deve-se verificar qual objeto
+					//se deve desenhar
+
+					switch(figura) //switch para designar a funcao que desenhara a linha atual
+								   //de acordo com a figura desejada
+					{
+						case 'Q':
+							desenhaLinhaQuadrado(larguraMoldura);
+							break;
+						case 'q':
+							desenhaLinhaQuadrado(larguraMoldura);
+							break;
+						case 'T':
+							desenhaLinhaTriangulo(larguraMoldura, i);
+							break;
+						case 't':
+							desenhaLinhaTriangulo(larguraMoldura, i);
+							break;
+						case 'L':
+							desenhaLinhaLosango(larguraMoldura, i, altura);
+							break;
+						case 'l':
+							desenhaLinhaLosango(larguraMoldura, i, altura);
+							break;
+					}
+
+					printf("\n");
+				}
+
 		}
+		else
+			printf("entrada invalida\n");
+	}
 }
