@@ -16,6 +16,10 @@ vender as ações de uma empresa e comprar a de outra no mesmo dia;
         o ganho com cada bloco de ações definido como o valor que se vendeu aquele bloco menos o
     valor que ele foi comprado.
 */
+int haIgualdadesIncapacitadoras(int i, int j, int k, int l)
+{
+    //verificar se da pra passar
+}
 
 int main()
 {
@@ -70,71 +74,92 @@ int main()
 
                     //verificar possiveis igualdades
                     if(i == j || i == k || i == l ||
-                       j == k || j == l || l == k) // igualdade vista
+                       j == k || j == l || l == k) // igualdade vista -> usar a funcao
                     {
                         //analisar os outros casos
                     }
                     else
                     {
-                        lucro;
-                        valorCompraDiaAtual
-                        empresaAnterior
-                        for(int m=0; m<d+1; m++) // 0 a d+1
+                        float lucro;
+                        float valorUltimaCompra, valorCompraAtual;
+                        int empresaAnterior, empresaAtual = 0;
+                        int contabilizar = 0;
+
+                        for(int m=0; m<d+1; m++) // 0 a d+1 -> simulador de dias
                         {
-
-                            if(m == i) //empresa1
+                            if(m == i && m != 0) //empresa1
                             {
-                                if(m != 0) //naum eh o 1o dia
-                                {
-                                    lucro += valorCompraDiaAnterior-empresaAnterior[m];
-                                }
-
-                                valorCompraDiaAtual = empresa1[i]
+                                //pensar no caso de ser 0
+                                if(m != 1) //naum eh o 1o dia => fazer contabilizacao de lucro
+                                    contabilizar = 1;
+                                
+                                empresaAtual = 1;
+                                valorCompraAtual = empresa1[i];
+                                //aqui atualizar cI, cJ, cK ou cL instantaneos
                             }
                             else
-                                if(m == j) //empresa2
-                                    valorCompraDiaAtual = empresa2[j];
+                                if(m == j && m != 0) //empresa2
+                                {
+                                    if(m != 1) //naum eh o 1o dia
+                                        contabilizar = 1;
+
+                                    empresaAtual = 2;
+                                    valorCompraAtual = empresa2[j];
+                                    //aqui atualizar cI, cJ, cK ou cL instantaneos
+                                }
                                 else
-                                    if(m == k) //empresa3
-                                        valorCompraDiaAtual = empresa3[k];
+                                    if(m == k && m != 0) //empresa3
+                                    {
+                                        if(m != 1) //naum eh o 1o dia
+                                            contabilizar = 1;
+
+                                        empresaAtual = 3;
+                                        valorCompraAtual = empresa3[k];
+                                        //aqui atualizar cI, cJ, cK ou cL instantaneos
+                                    }
                                     else
-                                        if(m == l) //empresa2
-                                            valorCompraDiaAtual = empresa4[l];
+                                        if(m == l && m != 0) //empresa2
+                                        {
+                                            if(m != 1) //naum eh o 1o dia
+                                                contabilizar = 1;
+
+                                            empresaAtual = 4;
+                                            valorCompraAtual = empresa4[l];
+                                            //aqui atualizar cI, cJ, cK ou cL instantaneos
+                                        }
                                         else
                                         {
                                             //nenhuma operacao a se realizar neste dia
                                         }
 
-                            
 
-                            valorCompraDiaAnterior = valorCompraDiaAtual;
+                            if(contabilizar)
+                            {
+                                float novoValorAcaoEmpresaAnterior;
+                                switch(empresaAnterior)
+                                {
+                                    //aqui atualizar vI, vJ, vK ou vL instantaneos
+                                    case 1 : novoValorAcaoEmpresaAnterior = empresa1[m]; break;
+                                    case 2 : novoValorAcaoEmpresaAnterior = empresa2[m]; break;
+                                    case 3 : novoValorAcaoEmpresaAnterior = empresa3[m]; break;
+                                    case 4 : novoValorAcaoEmpresaAnterior = empresa4[m]; break;
+                                }
+
+                                lucro += novoValorAcaoEmpresaAnterior-valorUltimaCompra;
+                                contabilizar = 0;
+
+                                empresaAnterior = empresaAtual;
+                                valorUltimaCompra = valorCompraAtual;
+                            }
                         }
                     }
-                    
-
-
-
-
-                    // aqui tenho os inidices que resultam no lucro atual
-                    //ver como guarda-los para posterior apresentacao
-                    //  criar quatro variaveis, mI, mJ, mK e mL, que indicam
-                    //os indices do maior lucro até entao
-                    //no final dos loops, eles estaram setados bonitinhos para apresentacao
 
                     if(maiorLucro < lucro) //armazenar o maior lucro ate o momento
                     {
                         maiorLucro = lucro;
-                        /*
-                        cI = ; // dia compra empresa1
-                        cJ = ; // dia compra empresa2
-                        cK = ; // dia compra empresa3
-                        cL = ; // dia compra empresa4
 
-                        vI = ; // dia venda empresa1
-                        vJ = ; // dia venda empresa2
-                        vK = ; // dia venda empresa3
-                        vL = ; // dia venda empresa4
-                        */
+                        //aqui atualizar variaveis marcadoras de dias de compra e venda
+                        //a partir das respectivas instantaneas
                     }
                 }
             }
