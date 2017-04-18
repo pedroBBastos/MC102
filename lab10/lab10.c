@@ -47,12 +47,12 @@ int main()
         ---------------------
     */
 
-    
+    printf("d+1 = %d\n", d+1);
 
     float maiorLucro = 0.0;
 
-    int cI, cJ, cK, cL = 0; //variaveis que identificarao os dias de compra das acoes de cada empresa para o maior lucro total obtido
-    int vI, vJ, vK, vL = 0; //variaveis que identificarao os dias de venda das acoes de cada empresa para o maior lucro total obtido
+    int cI = 0, cJ = 0, cK = 0, cL = 0; //variaveis que identificarao os dias de compra das acoes de cada empresa para o maior lucro total obtido
+    int vI = 0, vJ = 0, vK = 0, vL = 0; //variaveis que identificarao os dias de venda das acoes de cada empresa para o maior lucro total obtido
 
     //os indices dos loops abaixo serao considerados como os indices da compra do
     //bloco das acoes
@@ -70,29 +70,28 @@ int main()
                     //pensar nas regras do problema para elaboracao dos ifs e das somas/substracoes
                     //faz as atribuicoes finais
                     float lucro;
-                    int cIp, cJp, cKp, cLp = 0;
-                    int vIp, vJp, vKp, vLp = 0;
+                    int cIp = 0, cJp = 0, cKp = 0, cLp = 0;
+                    int vIp = 0, vJp = 0, vKp = 0, vLp = 0;
 
-                    printf("i - %d, j - %d, k - %d, l - %d\n", i, j, k, l);
+                    printf("i = %d, j = %d, k = %d, l = %d\n", i, j, k, l);
 
-                    /*
-                    if((i != 0 && j != 0 && k != 0 && l != 0) &&
-                       (i == j || i == k || i == l ||
-                        j == k || j == l || k == l)) */
-                    if((i == j || i == k || i == l ||
-                        j == k || j == l || k == l))
+                    //deve-se pensar um jeito de se verificar a igualdade
+                    //entre os indices que nao sao zero
+
+                    if( (i != 0 && i == j) || (i != 0 && i == k) || (i != 0 && i == l) ||
+                        (j != 0 && j == k) || (j != 0 && j == l) || (k != 0 && k == l))
                     {
                         printf("igualdades que sao invalidas\n");
                         continue;
                     }
                     else
                     {
-                        float valorUltimaCompra, valorCompraAtual;
-                        int empresaAnterior, empresaAtual = 0;
+                        float valorUltimaCompra = 0, valorCompraAtual = 0;
+                        int empresaAnterior = 0, empresaAtual = 0;
                         int contabilizar = 0;
 
                         if(i != 0 || j != 0 || k != 0 || l != 0) // se ha pelo menos um dia de compra de acoes
-                            for(int m=1; m<d+1; m++) // dia 1 a dia d -> simulador de dias
+                            for(int m=1; m<d+1; m++) // dia 1 a dia d+1 -> simulador de dias
                             {
                                 if(m == i) //empresa1
                                 {
@@ -165,7 +164,7 @@ int main()
                             }
                     }
 
-                    if(maiorLucro < lucro) //armazenar o maior lucro ate o momento
+                    if(lucro > 0 && maiorLucro < lucro) //armazenar o maior lucro ate o momento
                     {
                         maiorLucro = lucro;
 
@@ -189,21 +188,32 @@ int main()
         }
     }
 
+    printf("--------------------------------------------------------\n");
+    printf("Fim dos loops encadeados\n");
+    printf("--------------------------------------------------------\n");
+
+    printf("cI = %d, cJ = %d, cK = %d, cL = %d\n", cI, cJ, cK, cL);
+    printf("vI = %d, vJ = %d, vK = %d, vL = %d\n", vI, vJ, vK, vL);
+
+    printf("--------------------------------------------------------\n");
+
     //------------------
     //printar os dados
     //------------------
+
+
     
     if(cI != 0)
-        printf("acao 1: compra %d, venda %d, lucro %.2f\n", cI, vI, empresa1[cI] - empresa1[vI]);
+        printf("acao 1: compra %d, venda %d, lucro %.2f\n", cI, vI, empresa1[vI] - empresa1[cI]);
 
     if(cJ != 0)
-        printf("acao 2: compra %d, venda %d, lucro %.2f\n", cJ, vJ, empresa1[cJ] - empresa1[vJ]);
+        printf("acao 2: compra %d, venda %d, lucro %.2f\n", cJ, vJ, empresa2[vJ] - empresa2[cJ]);
 
     if(cK != 0)
-        printf("acao 3: compra %d, venda %d, lucro %.2f\n", cK, vK, empresa1[cK] - empresa1[vK]);
+        printf("acao 3: compra %d, venda %d, lucro %.2f\n", cK, vK, empresa3[vK] - empresa3[cK]);
 
     if(cL != 0)
-        printf("acao 4: compra %d, venda %d, lucro %.2f\n", cL, vL, empresa1[cL] - empresa1[vL]);
+        printf("acao 4: compra %d, venda %d, lucro %.2f\n", cL, vL, empresa4[vL] - empresa4[cL]);
 
     if(maiorLucro >= 0.0)
         printf("Lucro: %.2f\n", maiorLucro);
