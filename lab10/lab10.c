@@ -47,7 +47,7 @@ int main()
         ---------------------
     */
 
-    printf("d+1 = %d\n", d+1);
+    //printf("d+1 = %d\n", d+1);
 
     float maiorLucro = 0.0;
 
@@ -64,16 +64,16 @@ int main()
             {
                 for(int l=0; l<d+1; l++) // // dias de compra para acoes da empresa4
                 {
-                    printf("--------------------------------------------------------\n");
+                    //printf("--------------------------------------------------------\n");
 
                     //aqui tem-se a combinacao de todos os indices possiveis
                     //pensar nas regras do problema para elaboracao dos ifs e das somas/substracoes
                     //faz as atribuicoes finais
-                    float lucro;
+                    float lucro = 0.0;
                     int cIp = 0, cJp = 0, cKp = 0, cLp = 0;
                     int vIp = 0, vJp = 0, vKp = 0, vLp = 0;
 
-                    printf("i = %d, j = %d, k = %d, l = %d\n", i, j, k, l);
+                    //printf("i = %d, j = %d, k = %d, l = %d\n", i, j, k, l);
 
                     //deve-se pensar um jeito de se verificar a igualdade
                     //entre os indices que nao sao zero
@@ -81,7 +81,7 @@ int main()
                     if( (i != 0 && i == j) || (i != 0 && i == k) || (i != 0 && i == l) ||
                         (j != 0 && j == k) || (j != 0 && j == l) || (k != 0 && k == l))
                     {
-                        printf("igualdades que sao invalidas\n");
+                        //printf("igualdades que sao invalidas\n");
                         continue;
                     }
                     else
@@ -97,7 +97,7 @@ int main()
                                 {
                                     cIp = i;
 
-                                    if(m != 1) //naum eh o 1o dia => fazer contabilizacao de lucro
+                                    if(empresaAnterior != 0) //naum eh o 1o dia => fazer contabilizacao de lucro
                                         contabilizar = 1;
                                     
                                     empresaAtual = 1;
@@ -108,7 +108,7 @@ int main()
                                     {
                                         cJp = j;
 
-                                        if(m != 1) //naum eh o 1o dia
+                                        if(empresaAnterior != 0) //naum eh o 1o dia
                                             contabilizar = 1;
 
                                         empresaAtual = 2;
@@ -119,7 +119,7 @@ int main()
                                         {
                                             cKp = k;
 
-                                            if(m != 1) //naum eh o 1o dia
+                                            if(empresaAnterior != 0) //naum eh o 1o dia
                                                 contabilizar = 1;
 
                                             empresaAtual = 3;
@@ -130,7 +130,7 @@ int main()
                                             {
                                                 cLp = l;
 
-                                                if(m != 1) //naum eh o 1o dia
+                                                if(empresaAnterior != 0) //naum eh o 1o dia
                                                     contabilizar = 1;
 
                                                 empresaAtual = 4;
@@ -141,7 +141,6 @@ int main()
                                                 //nenhuma operacao a se realizar neste dia
                                                 continue;
                                             }
-
 
                                 if(contabilizar)
                                 {
@@ -164,7 +163,7 @@ int main()
                             }
                     }
 
-                    if(lucro > 0 && maiorLucro < lucro) //armazenar o maior lucro ate o momento
+                    if(maiorLucro < lucro) //armazenar o maior lucro ate o momento
                     {
                         maiorLucro = lucro;
 
@@ -188,6 +187,7 @@ int main()
         }
     }
 
+    /*
     printf("--------------------------------------------------------\n");
     printf("Fim dos loops encadeados\n");
     printf("--------------------------------------------------------\n");
@@ -196,6 +196,7 @@ int main()
     printf("vI = %d, vJ = %d, vK = %d, vL = %d\n", vI, vJ, vK, vL);
 
     printf("--------------------------------------------------------\n");
+    */
 
     //------------------
     //printar os dados
@@ -203,16 +204,16 @@ int main()
 
 
     
-    if(cI != 0)
+    if(cI != 0 && vI != 0)
         printf("acao 1: compra %d, venda %d, lucro %.2f\n", cI, vI, empresa1[vI] - empresa1[cI]);
 
-    if(cJ != 0)
+    if(cJ != 0 && vJ != 0)
         printf("acao 2: compra %d, venda %d, lucro %.2f\n", cJ, vJ, empresa2[vJ] - empresa2[cJ]);
 
-    if(cK != 0)
+    if(cK != 0 && vK != 0)
         printf("acao 3: compra %d, venda %d, lucro %.2f\n", cK, vK, empresa3[vK] - empresa3[cK]);
 
-    if(cL != 0)
+    if(cL != 0 && vL != 0)
         printf("acao 4: compra %d, venda %d, lucro %.2f\n", cL, vL, empresa4[vL] - empresa4[cL]);
 
     if(maiorLucro >= 0.0)
