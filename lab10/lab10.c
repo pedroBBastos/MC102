@@ -53,10 +53,11 @@ int main()
     */
 
     float maiorLucro = 0.0;
-    int cI, cJ, cK, cL = 0;
-    int vI, vJ, vK, vL = 0;
 
-    //os indices dos loops abaixo serao considerados como os indces da compra do
+    int cI, cJ, cK, cL = 0; //variaveis que identificarao os dias de compra das acoes de cada empresa
+    int vI, vJ, vK, vL = 0; //variaveis que identificarao os dias de venda das acoes de cada empresa
+
+    //os indices dos loops abaixo serao considerados como os indices da compra do
     //bloco das acoes
     for(int i=0; i<d+1; i++) // dias de compra para acoes da empresa1
     {
@@ -69,8 +70,6 @@ int main()
                     //aqui tem-se a combinacao de todos os indices possiveis
                     //pensar nas regras do problema para elaboracao dos ifs e das somas/substracoes
                     //faz as atribuicoes finais
-
-
 
                     //verificar possiveis igualdades
                     if(i == j || i == k || i == l ||
@@ -95,7 +94,6 @@ int main()
                                 
                                 empresaAtual = 1;
                                 valorCompraAtual = empresa1[i];
-                                //aqui atualizar cI, cJ, cK ou cL instantaneos
                             }
                             else
                                 if(m == j && m != 0) //empresa2
@@ -105,7 +103,6 @@ int main()
 
                                     empresaAtual = 2;
                                     valorCompraAtual = empresa2[j];
-                                    //aqui atualizar cI, cJ, cK ou cL instantaneos
                                 }
                                 else
                                     if(m == k && m != 0) //empresa3
@@ -115,7 +112,6 @@ int main()
 
                                         empresaAtual = 3;
                                         valorCompraAtual = empresa3[k];
-                                        //aqui atualizar cI, cJ, cK ou cL instantaneos
                                     }
                                     else
                                         if(m == l && m != 0) //empresa2
@@ -125,11 +121,11 @@ int main()
 
                                             empresaAtual = 4;
                                             valorCompraAtual = empresa4[l];
-                                            //aqui atualizar cI, cJ, cK ou cL instantaneos
                                         }
                                         else
                                         {
                                             //nenhuma operacao a se realizar neste dia
+					    continue;
                                         }
 
 
@@ -148,9 +144,12 @@ int main()
                                 lucro += novoValorAcaoEmpresaAnterior-valorUltimaCompra;
                                 contabilizar = 0;
 
-                                empresaAnterior = empresaAtual;
-                                valorUltimaCompra = valorCompraAtual;
+                                //empresaAnterior = empresaAtual;
+                                //valorUltimaCompra = valorCompraAtual;
                             }
+			    
+			    empresaAnterior = empresaAtual;
+                            valorUltimaCompra = valorCompraAtual;
                         }
                     }
 
