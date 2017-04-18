@@ -1,20 +1,15 @@
 #include <stdio.h>
 
 /*
-    # Somente quatro empresas terão ações disponíveis para compra/venda;
-    # A compra e venda se dá por um bloco de ações inteiras, e a entrada do programa contém
-exatamente o valor do bloco de ações de cada empresa em cada dia;
-    # A carteira de aplicações deve possuir a cada dia ações de no máximo uma empresa, ou seja,
-para comprar ações de uma empresa deve-se vender as ações previamente compradas de outra empresa;
-    # Pode-se comprar e vender ações de cada empresa no máximo uma vez no período avaliado, ou seja,
-após vendido o bloco de ações de uma empresa, não se pode mais realizar a compra de uma ação dela no futuro;
-    # A compra de um bloco de ações é feita no fim do dia e a venda é feita no começo, de modo que pode-se
-vender as ações de uma empresa e comprar a de outra no mesmo dia;
-        - venda primeira, compra depois
+        Este programa tem por objetivo avaliar os valores diarios de quatro blocos de ações, referentes a quatro
+    diferentes empresas, afim de decidir quais são os melhores dias para compra e venda das ações para o
+    maior lucro possível.
+        A primeira entrada que o programa recebe eh a quantidade de dias em que as acoes estarao sob analise,
+    sendo que as linhas subsequentes informam os valores das acoes de cada empresa na dada duracao
+    de analise.
+        Como saida        
 
-
-        o ganho com cada bloco de ações definido como o valor que se vendeu aquele bloco menos o
-    valor que ele foi comprado.
+    Nome : Pedro Barros Bastos      RA : 204481
 */
 
 int main()
@@ -62,7 +57,7 @@ int main()
             {
                 for(int l=0; l<d+1; l++) // // dias de compra para acoes da empresa4
                 {
-                    printf("--------------------------------------------------------\n");
+                    //printf("--------------------------------------------------------\n");
 
                     //aqui tem-se a combinacao de todos os indices possiveis
                     //pensar nas regras do problema para elaboracao dos ifs e das somas/substracoes
@@ -71,7 +66,7 @@ int main()
                     int cIp = 0, cJp = 0, cKp = 0, cLp = 0;
                     int vIp = 0, vJp = 0, vKp = 0, vLp = 0;
 
-                    printf("i = %d, j = %d, k = %d, l = %d\n", i, j, k, l);
+                    //printf("i = %d, j = %d, k = %d, l = %d\n", i, j, k, l);
 
                     //deve-se pensar um jeito de se verificar a igualdade
                     //entre os indices que nao sao zero
@@ -79,7 +74,7 @@ int main()
                     if( (i != 0 && i == j) || (i != 0 && i == k) || (i != 0 && i == l) ||
                         (j != 0 && j == k) || (j != 0 && j == l) || (k != 0 && k == l) )
                     {
-                        printf("igualdades que sao invalidas\n");
+                        //printf("igualdades que sao invalidas\n");
                         continue;
                     }
                     else
@@ -148,7 +143,6 @@ int main()
                                             else
                                             {
                                                 //nenhuma operacao de compra a se realizar neste dia
-                                                //continue;
                                             }
                                 
 
@@ -158,7 +152,6 @@ int main()
                                 //que a em dias anteriores
                                 if(empresaAnterior != 0)
                                 {
-                                    //float lucroVendaDiaAtual = valorUltimaCompra;
                                     float lucroVendaDiaAtual = 0.0;
                                     switch(empresaAnterior)
                                     {
@@ -183,7 +176,7 @@ int main()
                                     }
                                 }
 
-                                if(comprarBloco) //|| m == d
+                                if(comprarBloco || m == d)
                                 {   
                                     lucro += lucroAcaoComprada;
                                     lucroAcaoComprada = 0.0;
@@ -191,9 +184,6 @@ int main()
                                     valorUltimaCompra = valorCompraAtual;
                                     comprarBloco = 0;
                                 }
-                    
-                                //empresaAnterior = empresaAtual;
-                                //valorUltimaCompra = valorCompraAtual;
                             }
                         }
                     }
@@ -224,6 +214,7 @@ int main()
         }
     }
 
+    /*
     printf("--------------------------------------------------------\n");
     printf("Fim dos loops encadeados\n");
     printf("--------------------------------------------------------\n");
@@ -231,7 +222,7 @@ int main()
     printf("cI = %d, cJ = %d, cK = %d, cL = %d\n", cI, cJ, cK, cL);
     printf("vI = %d, vJ = %d, vK = %d, vL = %d\n", vI, vJ, vK, vL);
 
-    printf("--------------------------------------------------------\n");
+    printf("--------------------------------------------------------\n");*/
 
     //------------------
     //printar os dados
