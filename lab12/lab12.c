@@ -1,25 +1,90 @@
 #include <stdio.h>
 #include <string.h>
 
-void deletarPalavra(char texto[])
+char paraMinusculo(char letra)
 {
-    char[50] palavra_deletar;
-    fgets(palavra_deletar, 50, stdin);
-
+    if(letra >= 97)
+        return letra;
     
+    return letra + 32;
 }
 
-void inverterPalavra(char texto[])
+void criaPalavra(char texto[], int inicio, char palavra[], int tam)
 {
-    char[50] palavra_inverter;
-    fgets(palavra_inverter, 50, stdin);
+    int i;
+    for(i=0; i<tam; i++)
+        palavra[i] = paraMinusculo(texto[inicio+i]);
+
+    palavra[i] = '\0';
 }
 
-void trocarPalavra(char texto[])
+void deletarPalavra(char palavra_deletar[], char texto[])
 {
-    char[50] palavra_velha, palavra_nova;
-    fgets(palavra_velha, 50, stdin);
-    fgets(palavra_nova, 50, stdin);
+    int tamanhoTexto = strlen(texto); //strlen retorna o tamanho do texto digitado SEM
+                                      //contar o '\0'
+
+    int inicioPalavraAtual = 0;
+
+    for(int i=0; i<tamanhoTexto; i++) // ler todos os caracteres do texto lido como entrada
+    {
+        if(texto[i] == ' ' || texto[i] == '\n') // se for algum separador
+        {
+            char palavraAtual[50];
+            criaPalavra(texto, inicioPalavraAtual, palavraAtual, i-inicioPalavraAtual);
+
+            if(strcmp(palavraAtual, palavra_deletar) == 0)
+            {
+            }
+            
+            inicioPalavraAtual = i+1;
+        }
+    }
+}
+
+void inverterPalavra(char[] palavra_inverter, char texto[])
+{
+    int tamanhoTexto = strlen(texto); //strlen retorna o tamanho do texto digitado SEM
+                                      //contar o '\0'
+
+    int inicioPalavraAtual = 0;
+
+    for(int i=0; i<tamanhoTexto; i++) // ler todos os caracteres do texto lido como entrada
+    {
+        if(texto[i] == ' ' || texto[i] == '\n') // se for algum separador
+        {
+            char palavraAtual[50];
+            criaPalavra(texto, inicioPalavraAtual, palavraAtual, i-inicioPalavraAtual);
+
+            if(strcmp(palavraAtual, palavra_inverter) == 0)
+            {
+            }
+
+            inicioPalavraAtual = i+1;
+        }
+    }
+}
+
+void trocarPalavra(char palavra_velha[], char palavra_nova[], char texto[])
+{
+    int tamanhoTexto = strlen(texto); //strlen retorna o tamanho do texto digitado SEM
+                                      //contar o '\0'
+
+    int inicioPalavraAtual = 0;
+
+    for(int i=0; i<tamanhoTexto; i++) // ler todos os caracteres do texto lido como entrada
+    {
+        if(texto[i] == ' ' || texto[i] == '\n') // se for algum separador
+        {
+            char palavraAtual[50];
+            criaPalavra(texto, inicioPalavraAtual, palavraAtual, i-inicioPalavraAtual);
+
+            if(strcmp(palavraAtual, palavra_velha) == 0)
+            {
+            }
+
+            inicioPalavraAtual = i+1;
+        }
+    }
 }
 
 int main()
@@ -38,9 +103,33 @@ int main()
 
         switch(operacao)
         {
-            case 'D' : deletarPalavra(); break;
-            case 'I' : inverterPalavra(); break;
-            case 'R' : trocarPalavra(); break;
+            case 'D' : 
+            {
+                char palavra_deletar[50];
+                fgets(palavra_deletar, 50, stdin);
+
+                deletarPalavra(palavra_deletar, texto);
+                break;
+            }
+            
+            case 'I' : 
+            {
+                char palavra_inverter[50];
+                fgets(palavra_inverter, 50, stdin);
+
+                inverterPalavra(palavra_inverter, texto); 
+                break;
+            }
+
+            case 'R' : 
+            {
+                char palavra_velha[50], palavra_nova[50];
+                fgets(palavra_velha, 50, stdin);
+                fgets(palavra_nova, 50, stdin);
+
+                trocarPalavra(palavra_velha, palavra_nova, texto); 
+                break;
+            }
         }
     }
 
