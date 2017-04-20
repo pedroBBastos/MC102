@@ -1,6 +1,17 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+        Este programa ter por objetivo transcrever uma mensagem, a partir de palavras-chave
+    nela contidas, a fim se verificar a direcao de um ataque iminente bem como o angulo
+    de elevacao do canhao para que se possa interceptar este ataque.
+        Como entrada o programa recebe a mensagem, uma string de no maximo 1000 caracteres.
+        Como saida, o programa exibe as direcoes dos ataques e o ano angulo de elevacao
+    do canhao para que se possa interceptar estes ataques.
+
+    Nome : Pedro Barros Bastos      RA : 204481
+*/
+
 // verificar se o tamanho do vetor vai importar durante a comparacao - NOPE
 //      pois fara as comparacoes ate encontrar o '\0'
 
@@ -31,6 +42,19 @@ char paraMinusculo(char letra)
 }
 
 /*
+    funcao que a partir de uma posicao inicial do texto, monta o vetor
+    'palavra' com a palavra contido nesse texto
+*/
+void criaPalavra(char texto[], int inicio, char palavra[], int tam)
+{
+    int i;
+    for(i=0; i<tam; i++)
+        palavra[i] = paraMinusculo(texto[inicio+i]);
+
+    palavra[i] = '\0';
+}
+
+/*
     Direção:
         mercurio = N
         venus = NE
@@ -41,17 +65,23 @@ char paraMinusculo(char letra)
         urano = O
         netuno = NO
 */
-int palavraEhDirecao(char texto[1000], int inicio, int fim)
+
+/*
+        Funcao que verifica se uma dada palavra contida no texto
+    corresponde a uma palavra associada a uma direcao
+*/
+int palavraEhDirecao(char texto[], int inicio, int fim)
 {   
     //iniciar um vetor com tamanho da palavra atual
     int tam = fim-inicio+1;
     char palavra[tam];
 
-    int i;
-    for(i=0; i<tam; i++)
-        palavra[i] = paraMinusculo(texto[inicio+i]);
-    palavra[i] = '\0';
+    criaPalavra(texto, inicio, palavra, tam);
 
+    /*
+        Os proximos ifs verificao se a palavra lida
+        corresponde a uma palavra associada a uma direcao
+    */
     if(strcmp(palavra, mercurio) == 0)
     {
         printf("N - ");
@@ -109,17 +139,23 @@ int palavraEhDirecao(char texto[1000], int inicio, int fim)
         amarelo = 45
         vermelho = 60
 */
-int palavraEhElevacao(char texto[1000], int inicio, int fim)
+
+/*
+        Funcao que verifica se uma dada palavra contida no texto
+    corresponde a uma palavra associada a uma elevacao
+*/
+int palavraEhElevacao(char texto[], int inicio, int fim)
 {
     //iniciar um vetor com tamanho da palavra atual
     int tam = fim-inicio+1;
     char palavra[tam];
 
-    int i;
-    for(i=0; i<tam; i++)
-        palavra[i] = paraMinusculo(texto[inicio+i]);
-    palavra[i] = '\0';
+    criaPalavra(texto, inicio, palavra, tam);
 
+    /*
+        Os proximos ifs verificao se a palavra lida
+        corresponde a uma palavra associada a uma elevacao
+    */
     if(strcmp(palavra, verde) == 0)
     {
         printf("30\n");
@@ -143,7 +179,7 @@ int palavraEhElevacao(char texto[1000], int inicio, int fim)
 
 int main()
 {
-    char texto[1000]; //1000 caracteres, incluindo \ns e \0 ou 1001 com o \0 ??
+    char texto[1000];
 
     fgets(texto, 1000, stdin);
 
@@ -153,9 +189,9 @@ int main()
     int inicioPalavraAtual = 0;
     int procurarDirecao = 1; // false -> ler direcao, true -> ler elevacao canhao
 
-    for(int i=0; i<tamanhoTexto; i++)
+    for(int i=0; i<tamanhoTexto; i++) // ler todos os caracteres do texto lido como entrada
     {
-        if(texto[i] == ' ' || texto[i] == '\n')
+        if(texto[i] == ' ' || texto[i] == '\n') // se for algum separador
         {
             if(procurarDirecao)
             {
