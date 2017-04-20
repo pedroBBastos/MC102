@@ -7,14 +7,15 @@
         A primeira entrada que o programa recebe eh a quantidade de dias em que as acoes estarao sob analise,
     sendo que as linhas subsequentes informam os valores das acoes de cada empresa na dada duracao
     de analise.
-        Como saida        
+        Como saida o programa apresentara, para o maior lucro possivel, os dias de compra e venda das
+    acoes, bem como apresentando o maior lucro possivel atraves dessas compras e vendas
 
     Nome : Pedro Barros Bastos      RA : 204481
 */
 
 int main()
 {
-    int d;
+    int d; // variavel que representara os dias de analise
     scanf("%d", &d);
 
     //vetor tamanho d + 1, para que a primeira posicao seja 0, ou seja, quando nao se compra a acao
@@ -42,7 +43,8 @@ int main()
         ---------------------
     */
 
-    float maiorLucro = 0.0;
+    float maiorLucro = 0.0; // variavel que armazenara o maior lucro possivel atraves dos iteracoes dos lacos
+                            //encadeados abaixo
 
     int cI = 0, cJ = 0, cK = 0, cL = 0; //variaveis que identificarao os dias de compra das acoes de cada empresa para o maior lucro total obtido
     int vI = 0, vJ = 0, vK = 0, vL = 0; //variaveis que identificarao os dias de venda das acoes de cada empresa para o maior lucro total obtido
@@ -59,18 +61,16 @@ int main()
                 {
                     //printf("--------------------------------------------------------\n");
 
-                    //aqui tem-se a combinacao de todos os indices possiveis
-                    //pensar nas regras do problema para elaboracao dos ifs e das somas/substracoes
-                    //faz as atribuicoes finais
+                    //neste for tem-se a combinacao de todos os indices possiveis
+                    
                     float lucro = 0.0;
                     int cIp = 0, cJp = 0, cKp = 0, cLp = 0;
                     int vIp = 0, vJp = 0, vKp = 0, vLp = 0;
 
                     //printf("i = %d, j = %d, k = %d, l = %d\n", i, j, k, l);
 
-                    //deve-se pensar um jeito de se verificar a igualdade
-                    //entre os indices que nao sao zero
-
+                    //verificando a igualdade entre os indices que nao sao zero, mas zero pode passar
+                    //pois indica a nao compra de determinada acao
                     if( (i != 0 && i == j) || (i != 0 && i == k) || (i != 0 && i == l) ||
                         (j != 0 && j == k) || (j != 0 && j == l) || (k != 0 && k == l) )
                     {
@@ -84,7 +84,7 @@ int main()
                         int comprarBloco = 0;
 
                         //quando comprar uma acao, testar todos os dias de venda
-                        //nao so a venda no dia de compra da prox,
+                        //nao so a venda no dia de compra da prox acao,
                         //mas testar os lucros para aquela acao ate o dia
                         //da compra da proxima acao
 
@@ -98,10 +98,9 @@ int main()
                                 {
                                     cIp = i;
 
-                                    //nao eh para fazer o abaixo
                                     //nada impede o cara apenas vender a acao em um dia, nao
                                     //comprando outra no exato mesmo dia
-                                    //if(empresaAnterior != 0) //naum eh o 1o dia => fazer contabilizacao de lucro
+
                                     comprarBloco = 1;
 
                                     empresaAtual = 1;
@@ -112,7 +111,6 @@ int main()
                                     {
                                         cJp = j;
 
-                                        //if(empresaAnterior != 0) //naum eh o 1o dia
                                         comprarBloco = 1;
 
                                         empresaAtual = 2;
@@ -123,7 +121,6 @@ int main()
                                         {
                                             cKp = k;
 
-                                            //if(empresaAnterior != 0) //naum eh o 1o dia
                                             comprarBloco = 1;
 
                                             empresaAtual = 3;
@@ -134,7 +131,6 @@ int main()
                                             {
                                                 cLp = l;
 
-                                                //if(empresaAnterior != 0) //naum eh o 1o dia
                                                 comprarBloco = 1;
 
                                                 empresaAtual = 4;
@@ -167,7 +163,7 @@ int main()
 
                                         switch(empresaAnterior)
                                         {
-                                            //aqui atualizar vI, vJ, vK ou vL instantaneos
+                                            //atualizando vI, vJ, vK ou vL instantaneos
                                             case 1 : vIp = m; break;
                                             case 2 : vJp = m; break;
                                             case 3 : vKp = m; break;
@@ -176,7 +172,8 @@ int main()
                                     }
                                 }
 
-                                if(comprarBloco || m == d)
+                                if(comprarBloco || m == d) // se for o dia para se realizar uma compra
+                                                           //ou o ultimo dos dias, contabilizar
                                 {   
                                     lucro += lucroAcaoComprada;
                                     lucroAcaoComprada = 0.0;
@@ -224,22 +221,21 @@ int main()
 
     printf("--------------------------------------------------------\n");*/
 
-    //------------------
-    //printar os dados
-    //------------------
 
-
+    //------------------
+    //printando os resultados obtidos
+    //------------------
     
-    if(cI != 0 && vI != 0) // && vI != 0
+    if(cI != 0 && vI != 0)
         printf("acao 1: compra %d, venda %d, lucro %.2f\n", cI, vI, empresa1[vI] - empresa1[cI]);
 
-    if(cJ != 0 && vJ != 0) // && vJ != 0
+    if(cJ != 0 && vJ != 0)
         printf("acao 2: compra %d, venda %d, lucro %.2f\n", cJ, vJ, empresa2[vJ] - empresa2[cJ]);
 
-    if(cK != 0 && vK != 0) // && vK != 0
+    if(cK != 0 && vK != 0)
         printf("acao 3: compra %d, venda %d, lucro %.2f\n", cK, vK, empresa3[vK] - empresa3[cK]);
 
-    if(cL != 0 && vL != 0) // && vL != 0
+    if(cL != 0 && vL != 0)
         printf("acao 4: compra %d, venda %d, lucro %.2f\n", cL, vL, empresa4[vL] - empresa4[cL]);
 
     printf("Lucro: %.2f\n", maiorLucro);
