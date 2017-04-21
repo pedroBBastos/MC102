@@ -41,7 +41,7 @@ void deletarPalavra(char palavra_deletar[], char texto[])
     }
 }
 
-void inverterPalavra(char[] palavra_inverter, char texto[])
+void inverterPalavra(char palavra_inverter[], char texto[])
 {
     int tamanhoTexto = strlen(texto); //strlen retorna o tamanho do texto digitado SEM
                                       //contar o '\0'
@@ -55,8 +55,18 @@ void inverterPalavra(char[] palavra_inverter, char texto[])
             char palavraAtual[50];
             criaPalavra(texto, inicioPalavraAtual, palavraAtual, i-inicioPalavraAtual);
 
+            printf("%s\n", palavraAtual);
+
             if(strcmp(palavraAtual, palavra_inverter) == 0)
             {
+                int metade = (i-inicioPalavraAtual)/2;
+                int p = i-1;
+                for(int k=inicioPalavraAtual; k<=metade; k++, p--)
+                {
+                    char aux = texto[p];
+                    texto[p] = texto[k];
+                    texto[k] = aux;
+                }
             }
 
             inicioPalavraAtual = i+1;
@@ -89,7 +99,7 @@ void trocarPalavra(char palavra_velha[], char palavra_nova[], char texto[])
 
 int main()
 {
-    char[1000] texto;
+    char texto[1000];
 
     fgets(texto, 1000, stdin);
 
