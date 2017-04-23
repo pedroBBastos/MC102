@@ -9,6 +9,28 @@ char paraMinusculo(char letra)
     return letra + 32;
 }
 
+void removerBarraN(char palavra[])
+{
+    int i = 0;
+    while(palavra[i] != 'n')
+        continue;
+
+    palavra[i] = palavra[i+1]; // caracter com '\n' recebe o '\0'
+}
+
+void tratarCasePalavra(char palavra[])
+{
+    int i = 0;
+    while(palavra[i] != '\0')
+        palavra[i] = paraMinusculo(palavra[i]);
+}
+
+void tratarPalavraLida(char palavra[])
+{
+    removerBarraN(palavra);
+    tratarCasePalavra(palavra);
+}
+
 void criaPalavra(char texto[], int inicio, char palavra[], int tam)
 {
     int i;
@@ -138,7 +160,32 @@ void trocarPalavra(char palavra_velha[], char palavra_nova[], char texto[])
                     if(tamanhoPalavraVelha > tamanhoPalavraNova)
                     {
                         //tamanho do vetor diminuira
-                        
+
+                        int fimPalavraAtual;
+
+                        if(texto[i] == '\n') // se o caracter atual for '\n' atualizar o fim da palavra
+                                            // para nao acabar apagar o \n
+                            fimPalavraAtual = i-1;
+                        else
+                            fimPalavraAtual = i;
+
+                        int parada = i+1 + tamanhoPalavraNova - tamanhoPalavraVelha;
+
+                        for(int k=fimPalavraAtual; k>=parada; k--)
+                        {
+                            int indiceDesloc = k;
+                            while(texto[indiceDesloc] != '\0') // ate o fim do texto
+                            {
+                                texto[indiceDesloc] = texto[indiceDesloc+1];
+                                indiceDesloc++;
+                            }
+                        }
+
+                        int j, k;
+                        for(j=inicioPalavraAtual, k=0; j<parada-1; j++, k++)
+                            texto[j] = palavra_nova[k];
+                        texto[j] = ' ';
+
                         // atualizando indice i e tamanhoTexto, devido aos deslocamentos ocorridos
                         //dentro do vetor
                         tamanhoTexto += tamanhoPalavraNova - tamanhoPalavraVelha;
@@ -194,9 +241,12 @@ int main()
                 //
                 //outro jeito de fazer eh remover o /n na mao -> vendo tamanho da string
                 //e acessando tam-2 = '\0'
+                
                 char* ponteiroBarraN;
                 if ((ponteiroBarraN=strchr(palavra_deletar, '\n')) != NULL)
                     *ponteiroBarraN = '\0';
+
+                //tratarPalavraLida(palavra_deletar);
 
                 deletarPalavra(palavra_deletar, texto);
                 break;
@@ -217,9 +267,12 @@ int main()
                 //
                 //outro jeito de fazer eh remover o /n na mao -> vendo tamanho da string
                 //e acessando tam-2 = '\0'
+                
                 char* ponteiroBarraN;
                 if ((ponteiroBarraN=strchr(palavra_inverter, '\n')) != NULL)
                     *ponteiroBarraN = '\0';
+
+                //tratarPalavraLida(palavra_inverter);
 
                 inverterPalavra(palavra_inverter, texto); 
                 break;
@@ -237,7 +290,10 @@ int main()
 
                 if ((ponteiroBarraN=strchr(palavra_nova, '\n')) != NULL)
                     *ponteiroBarraN = '\0';
-
+                
+                //tratarPalavraLida(palavra_velha);
+                //removerBarraN(palavra_nova);
+                
                 trocarPalavra(palavra_velha, palavra_nova, texto); 
                 break;
             }
