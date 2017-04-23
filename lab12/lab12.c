@@ -116,19 +116,36 @@ void trocarPalavra(char palavra_velha[], char palavra_nova[], char texto[])
                 int tamanhoPalavraVelha = strlen(palavra_velha);
                 int tamanhoPalavraNova = strlen(palavra_nova);
 
-                // tamanhoVetor += tamanhoPalavraNova - tamanhoPalavraVelha
+
                 if(tamanhoPalavraVelha < tamanhoPalavraNova)
                 {
-                    //vetor sera deslocado para frente
+                    //tamanho do vetor aumentara
+
+                    int novoFimVetor = tamanhoTexto+1 + tamanhoPalavraNova - tamanhoPalavraVelha;
+
+                    for(int j=novoFimVetor, k=tamanhoTexto+1; j>i; j--, k--) // deslocando vetor para frente                    
+                        texto[j] = texto[k];
+                    
+                    for(int j=inicioPalavraAtual, k=0; k<tamanhoPalavraNova; j++, k++) // colocando nova palavra no texto
+                        texto[j] = palavra_nova[k];
+                    
+                    // atualizando indice i e tamanhoTexto, devido aos deslocamentos ocorridos
+                    //dentro do vetor
+                    tamanhoTexto += tamanhoPalavraNova - tamanhoPalavraVelha;
+                    i += tamanhoPalavraNova - tamanhoPalavraVelha; // atualizando indice i pois
+                                                                   //o vetor foi deslocado
                 }
                 else
                     if(tamanhoPalavraVelha > tamanhoPalavraNova)
                     {
-                        //vetor sera deslocado para tras
+                        //tamanho do vetor diminuira
+                        
                     }
                     else
                     {
                         //basta substituir, pois possuem o mesmo tamanho
+                        for(int j=inicioPalavraAtual, k=0; j<i; j++, k++)
+                            texto[j] = palavra_nova[k];
                     }
             }
 
