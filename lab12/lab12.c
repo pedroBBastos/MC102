@@ -12,8 +12,8 @@ char paraMinusculo(char letra)
 void removerBarraN(char palavra[])
 {
     int i = 0;
-    while(palavra[i] != 'n')
-        continue;
+    while(palavra[i] != '\n')
+        i++;
 
     palavra[i] = palavra[i+1]; // caracter com '\n' recebe o '\0'
 }
@@ -22,7 +22,10 @@ void tratarCasePalavra(char palavra[])
 {
     int i = 0;
     while(palavra[i] != '\0')
+    {
         palavra[i] = paraMinusculo(palavra[i]);
+        i++;
+    }
 }
 
 void tratarPalavraLida(char palavra[])
@@ -241,12 +244,8 @@ int main()
                 //
                 //outro jeito de fazer eh remover o /n na mao -> vendo tamanho da string
                 //e acessando tam-2 = '\0'
-                
-                char* ponteiroBarraN;
-                if ((ponteiroBarraN=strchr(palavra_deletar, '\n')) != NULL)
-                    *ponteiroBarraN = '\0';
 
-                //tratarPalavraLida(palavra_deletar);
+                tratarPalavraLida(palavra_deletar);
 
                 deletarPalavra(palavra_deletar, texto);
                 break;
@@ -267,12 +266,8 @@ int main()
                 //
                 //outro jeito de fazer eh remover o /n na mao -> vendo tamanho da string
                 //e acessando tam-2 = '\0'
-                
-                char* ponteiroBarraN;
-                if ((ponteiroBarraN=strchr(palavra_inverter, '\n')) != NULL)
-                    *ponteiroBarraN = '\0';
 
-                //tratarPalavraLida(palavra_inverter);
+                tratarPalavraLida(palavra_inverter);
 
                 inverterPalavra(palavra_inverter, texto); 
                 break;
@@ -283,16 +278,9 @@ int main()
                 char palavra_velha[50], palavra_nova[50];
                 fgets(palavra_velha, 50, stdin);
                 fgets(palavra_nova, 50, stdin);
-
-                char* ponteiroBarraN;
-                if ((ponteiroBarraN=strchr(palavra_velha, '\n')) != NULL)
-                    *ponteiroBarraN = '\0';
-
-                if ((ponteiroBarraN=strchr(palavra_nova, '\n')) != NULL)
-                    *ponteiroBarraN = '\0';
                 
-                //tratarPalavraLida(palavra_velha);
-                //removerBarraN(palavra_nova);
+                tratarPalavraLida(palavra_velha);
+                removerBarraN(palavra_nova);
                 
                 trocarPalavra(palavra_velha, palavra_nova, texto); 
                 break;
@@ -300,5 +288,8 @@ int main()
         }
     }
 
-    //printf("%s", texto);
+    /*
+    char* ponteiroBarraN;
+    if ((ponteiroBarraN=strchr(palavra_inverter, '\n')) != NULL)
+        *ponteiroBarraN = '\0';*/
 }
