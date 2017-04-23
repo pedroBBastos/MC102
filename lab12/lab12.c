@@ -132,14 +132,17 @@ void trocarPalavra(char palavra_velha[], char palavra_nova[], char texto[])
                     // atualizando indice i e tamanhoTexto, devido aos deslocamentos ocorridos
                     //dentro do vetor
                     tamanhoTexto += tamanhoPalavraNova - tamanhoPalavraVelha;
-                    i += tamanhoPalavraNova - tamanhoPalavraVelha; // atualizando indice i pois
-                                                                   //o vetor foi deslocado
+                    i += tamanhoPalavraNova - tamanhoPalavraVelha;
                 }
                 else
                     if(tamanhoPalavraVelha > tamanhoPalavraNova)
                     {
                         //tamanho do vetor diminuira
                         
+                        // atualizando indice i e tamanhoTexto, devido aos deslocamentos ocorridos
+                        //dentro do vetor
+                        tamanhoTexto += tamanhoPalavraNova - tamanhoPalavraVelha;
+                        i += tamanhoPalavraNova - tamanhoPalavraVelha;
                     }
                     else
                     {
