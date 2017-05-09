@@ -1,5 +1,23 @@
 #include <stdio.h>
 
+/*
+        Este programa tem por objetivo realizar operacoes como impressão, ordenação, inclusao
+    remocao e busca de alunos matriculados em uma turma para auxiliar o sistema de gerenciamento
+    de turmas da DAC.
+        Primeiro, insere-se um determinado numero de RAs para posteriormente apresentar um menu
+    para que seja possivel realizar as opcoes acima descritas na lista de RAs passados
+        A saida eh apresentada quando, do menu, se escolhe a opcao de imprimir os RAs para ver
+    o resultado das operacoes efetuadas. Tambem, para cada caso, sao imprimidos os casos em que determinadas
+    operacoes nao podem ser realizadas, como remover alunos de uma lista vazia, etc.
+
+    Nome : Pedro Barros Bastos      RA : 204481
+
+*/
+
+/*
+    Metodo que, dada uma entrada lida do teclado, opera sobre
+    a string desta e monta o RA como um numero inteiro
+*/
 int leRA(char entrada[])
 {
     int procurado = 0;
@@ -15,6 +33,9 @@ int leRA(char entrada[])
     return procurado;
 }
 
+/*
+    Metodo para pesquisar determinado item linearmente
+*/
 int pesquisaLinear(int item, int v[], int tam)
 {
     for(int i=0; i<tam; i++)
@@ -24,6 +45,10 @@ int pesquisaLinear(int item, int v[], int tam)
     return 0;
 }
 
+/*
+    Metodo que verifica se determinada lista de RAs esta ordenada
+    crecentemente.
+*/
 int estaOrdenadoCrescentemente(int v[], int tam)
 {
     for(int i=0; i<tam-1; i++)
@@ -33,6 +58,10 @@ int estaOrdenadoCrescentemente(int v[], int tam)
     return 1;
 }
 
+/*
+    Metodo que verifica se determinada lista de RAs esta ordenada
+    decrecentemente.
+*/
 int estaOrdenadoDecrescentemente(int v[], int tam)
 {
     for(int i=0; i<tam-1; i++)
@@ -42,6 +71,9 @@ int estaOrdenadoDecrescentemente(int v[], int tam)
     return 1;
 }
 
+/*
+    Metodo para remover RA da lista
+*/
 int removeElemento(char entrada[], int v[], int tam)
 {
     /*
@@ -74,6 +106,9 @@ int removeElemento(char entrada[], int v[], int tam)
     return --tam;
 }
 
+/*
+    Metodo para inserir RA na lista
+*/
 int insereElemento(char entrada[], int v[], int tam)
 {
     /*
@@ -131,6 +166,10 @@ int insereElemento(char entrada[], int v[], int tam)
     return tam+1;
 }
 
+/*
+    Metodo que realiza a pesquisa binaria sobre um vetor
+    crescentemente ordenado
+*/
 void pesquisaBinariaCrescente(int procurado, int v[], int tam)
 {
     int i = 0, f = tam-1;
@@ -155,6 +194,10 @@ void pesquisaBinariaCrescente(int procurado, int v[], int tam)
     printf("\n%d nao esta na lista!\n", procurado);
 }
 
+/*
+    Metodo que realiza a pesquisa binaria sobre um vetor
+    decrescentemente ordenado
+*/
 void pesquisaBinariaDecrescente(int procurado, int v[], int tam)
 {
     int i = tam-1, f = 0;
@@ -179,10 +222,14 @@ void pesquisaBinariaDecrescente(int procurado, int v[], int tam)
     printf("\n%d nao esta na lista!\n", procurado);
 }
 
+/*
+    Metodo para gerenciamento de pesquisa binaria
+*/
 void pesquisaBinaria(char entrada[], int v[], int tam)
 {
     int procurado = leRA(entrada);
 
+    //verificando se a lista esta, de alguma forma, ordenada
     if(estaOrdenadoCrescentemente(v, tam))
         pesquisaBinariaCrescente(procurado, v, tam);
     else
@@ -192,6 +239,9 @@ void pesquisaBinaria(char entrada[], int v[], int tam)
             printf("Vetor nao ordenado!\n");
 }
 
+/*
+    Metodo para ordenar crescentemente um vetor
+*/
 void ordenaCrescente(int v[], int tam)
 {
     for(int i=0; i<tam; i++)
@@ -204,6 +254,9 @@ void ordenaCrescente(int v[], int tam)
             }
 }
 
+/*
+    Metodo para ordenar decrescentemente um vetor
+*/
 void ordenaDecrescente(int v[], int tam)
 {
     for(int i=0; i<tam; i++)
@@ -230,12 +283,12 @@ int main()
     int alunos[150];
     int n;
 
-    scanf("%d", &n);
+    scanf("%d", &n); // lendo qtd inicial de RAs na lista
 
     for(int i=0; i<n; i++)
-        scanf("%d", &alunos[i]);
+        scanf("%d", &alunos[i]); // lendo cada RA da lista
 
-    char entrada[10]; //caracter de operacao, \n e \0 
+    char entrada[10];
     for(;;)
     {
         fgets(entrada, 10, stdin);
