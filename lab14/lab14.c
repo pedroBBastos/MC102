@@ -15,6 +15,15 @@ int leRA(char entrada[])
     return procurado;
 }
 
+int pesquisaLinear(int item, int v[], int tam)
+{
+    for(int i=0; i<tam; i++)
+        if(v[i] == item)
+            return 1;
+    
+    return 0;
+}
+
 int estaOrdenadoCrescentemente(int v[], int tam)
 {
     for(int i=0; i<tam-1; i++)
@@ -33,22 +42,97 @@ int estaOrdenadoDecrescentemente(int v[], int tam)
     return 1;
 }
 
-int removeElemento(int v[], int tam)
+int removeElemento(char entrada[], int v[], int tam)
 {
-    return 0;
+    /*
+        - casos a se considerar na remocao
+            - quando a turma nao possui alunos matriculados
+            - quando o RA nao esta na lista
+    */
+
+    int elemento = leRA(entrada);
+
+    if(tam == 0)
+    {
+        printf("Nao ha alunos cadastrados na turma!\n");
+        return tam;
+    }
+
+    if(!pesquisaLinear(elemento, v, tam))
+    {
+        printf("Aluno nao matriculado na turma!\n");
+        return tam;
+    }
+
+    int i=0;
+    while(v[i] != elemento)
+        i++;
+
+    for(int j=i; j<tam-1; j++)
+        v[j] = v[j+1];
+
+    return --tam;
 }
 
-//int insereElementoEmCrescente()
-//int insereElementoEmDecrescente()
-
-int insereElemento(int v[], int tam)
+int insereElemento(char entrada[], int v[], int tam)
 {
-    return 0;
+    /*
+        - casos a se considerar na insercao
+            - quando a turma atingiu o limite de 150 alunos - ok
+            - quando o cara a inserir ja esta na turma - ok
+            - quando o vetor estiver ordenado, deve-se colocar o RA de forma correta.
+            Se não, colocar na ultima posicao
+    */
+
+    int elemento = leRA(entrada);
+
+    if(tam == 150)
+    {
+        printf("Limite de vagas excedido!\n");
+        return tam;
+    }
+
+    if(pesquisaLinear(elemento, v, tam))
+    {
+        printf("Aluno ja matriculado na turma!\n");
+        return tam;
+    }
+
+    if(estaOrdenadoCrescentemente(v, tam))
+    {
+        int i=0;
+
+        while(i < tam && v[i] < elemento)
+            i++;
+
+        for(int j=tam; j>i; j--)
+            v[j] = v[j-1];
+
+        v[i] = elemento;
+    }
+    else
+        if(estaOrdenadoDecrescentemente(v, tam))
+        {
+            int i=0;
+
+            while(i < tam && v[i] > elemento)
+                i++;
+
+            for(int j=tam; j>i; j--)
+                v[j] = v[j-1];
+
+            v[i] = elemento;
+        }
+        else
+        {
+            v[tam] = elemento;
+        }   
+
+    return tam+1;
 }
 
 void pesquisaBinariaCrescente(int procurado, int v[], int tam)
 {
-    printf("entrou crescente\n");
     int i = 0, f = tam-1;
 
     while(i <= f) // enquanto o vetor tiver pelo menos 1 elemento
@@ -58,7 +142,7 @@ void pesquisaBinariaCrescente(int procurado, int v[], int tam)
 
         if(v[meio] == procurado)
         {
-            printf("%d esta na posicao : %d\n", v[meio], meio);
+            printf("\n%d esta na posicao: %d\n", v[meio], meio);
             return;
         }
         
@@ -68,7 +152,7 @@ void pesquisaBinariaCrescente(int procurado, int v[], int tam)
             i = meio+1;
     }
 
-    printf("%d nao esta na lista!\n");
+    printf("\n%d nao esta na lista!\n", procurado);
 }
 
 void pesquisaBinariaDecrescente(int procurado, int v[], int tam)
@@ -82,7 +166,7 @@ void pesquisaBinariaDecrescente(int procurado, int v[], int tam)
 
         if(v[meio] == procurado)
         {
-            printf("\n%d esta na posicao : %d\n", v[meio], meio);
+            printf("\n%d esta na posicao: %d\n", v[meio], meio);
             return;
         }
         
@@ -92,7 +176,7 @@ void pesquisaBinariaDecrescente(int procurado, int v[], int tam)
             i = meio-1;
     }
 
-    printf("\n%d nao esta na lista!\n");
+    printf("\n%d nao esta na lista!\n", procurado);
 }
 
 void pesquisaBinaria(char entrada[], int v[], int tam)
@@ -137,7 +221,8 @@ void imprimiVetor(int v[], int tam)
     for(int i=0; i<tam; i++)
         printf("%d ", v[i]);
 
-    printf("\n");
+    if(tam > 0)
+        printf("\n");
 }
 
 int main()
@@ -164,8 +249,8 @@ int main()
             case 'c' : ordenaCrescente(alunos, n); break;
             case 'd' : ordenaDecrescente(alunos, n); break;
             case 'b' : pesquisaBinaria(entrada, alunos, n); break;
-            case 'i' : break;
-            case 'r' : break;
+            case 'i' : n = insereElemento(entrada, alunos, n); break;
+            case 'r' : n = removeElemento(entrada, alunos, n); break;
         }
     }
 }
