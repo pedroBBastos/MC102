@@ -24,17 +24,6 @@ int main()
         }
     }
 
-    /*
-    for(int i=0; i<mE; i++)
-    {
-        for(int j=0; j<nE; j++)
-            printf("%d", matriz[i][j]);
-
-        printf("\n");
-    }
-
-    printf("###########################\n");*/
-
     //interacoes dos estados para os dias transcorridos
     for(int d=0; d<=dias; d++)
     {
@@ -52,13 +41,13 @@ int main()
         }
         else
         {
-            int nova_matriz[mE][nE];            
+            int nova_matriz[mE][nE];
+
             for(int i=0; i<mE; i++)
                 for(int j=0; j<nE; j++)
-                    nova_matriz[i][j] = 0;                
+                    nova_matriz[i][j] = 0;
 
             for(int i=1; i<mE-1; i++)
-            //for(int i=1; i<2; i++)
             {
                 for(int j=1; j<nE-1; j++)
                 {
@@ -94,12 +83,6 @@ int main()
                         matriz[i+1][j+1]
                     };
 
-                    /*
-                    printf("Indice atual -> %d/%d\n", i, j);
-                    for(int v=0; v<8; v++)
-                        printf("vizinho -> %d\n", vizinhos[v]);
-                        */
-
                     switch(matriz[i][j])
                     {
                         case 0:
@@ -111,40 +94,27 @@ int main()
 
                             if(vizinhosHumanos == 2)
                                 nova_matriz[i][j] = 1;
-                            //else
-                                //nova_matriz[i][j] = matriz[i][j];
                             
                             break;
                         }
                         case 1:
                         {
-                            //int vizinhosZumbis = 0;
-                            
+                            int tem = 0;
                             for(int v=0; v<8; v++)
                                 if(vizinhos[v] == 2)
                                 {
                                     nova_matriz[i][j] = 2;
+                                    tem = 1;
                                     break;
                                 }
+
+                            if(!tem)
+                                nova_matriz[i][j] = matriz[i][j];;
+
                             break;
-                            /*
-                            for(int v=0; v<8; v++)
-                                if(vizinhos[v] == 2)
-                                {
-                                    vizinhosZumbis++;
-                                    break;
-                                }
-                            
-                            if(vizinhosZumbis > 0)
-                                nova_matriz[i][j] = 2;
-                            else
-                                nova_matriz[i][j] = matriz[i][j];
-                                */
                         }
                         case 2:
                         {
-                            //acho que o problema esta aqui
-
                             int vizinhosHumanos = 0;
                             //printf("Indice atual -> %d, %d\n", i, j);
                             for(int v=0; v<8; v++)
