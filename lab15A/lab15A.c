@@ -1,5 +1,17 @@
 #include <stdio.h>
 
+/*
+        Este programa tem por objetivo simular o estado da população durante alguns dias
+    em um ambiente zumbi apocaliptico, utilizando determinadas regras de interacao humano/zumbi.
+        Como entrada, o programa recebe o tamanho da matriz que representara a populacao,
+    contida do numero de linhas e colunas, alem de quantos dias de interacao o programa devera simular.
+        Como saida, eh apresentada a configuracao da populacao durante os determinados dias de
+    interacao.
+
+    Nome : Pedro Barros Bastos  RA : 204481
+
+*/
+
 int main()
 {
     int m, n, mE, nE;
@@ -87,6 +99,9 @@ int main()
                     {
                         case 0:
                         {
+                            //se estiver vazio, verificar a quantidade de humanos
+                            //para ver se nascera um outro humano no local
+
                             int vizinhosHumanos = 0;
                             for(int v=0; v<8; v++)
                                 if(vizinhos[v] == 1)
@@ -99,6 +114,9 @@ int main()
                         }
                         case 1:
                         {
+                            //sendo um humano, verificando se ha algum zumbi como vizinho
+                            //e se tiver, este se transformara em um
+
                             int tem = 0;
                             for(int v=0; v<8; v++)
                                 if(vizinhos[v] == 2)
@@ -115,30 +133,17 @@ int main()
                         }
                         case 2:
                         {
+                            //dependendo da quantidade de vizinhos humanos, o zumbi morrera
+
                             int vizinhosHumanos = 0;
-                            //printf("Indice atual -> %d, %d\n", i, j);
                             for(int v=0; v<8; v++)
                             {
-                                //printf("vizinho -> %d\n", vizinhos[v]);
                                 if(vizinhos[v] == 1)
                                     vizinhosHumanos++;
                             }
-                            //printf("vizinhosHumanos %d\n", vizinhosHumanos);
 
                             if(vizinhosHumanos == 0 || vizinhosHumanos >= 2)
-                            {
-                                /*
-                                printf("Indice atual -> %d, %d\n", i, j);
-                                printf("################### vizinhosHumanos %d - \n", vizinhosHumanos);
-                                for(int v=0; v<8; v++)
-                                    printf("vizinho -> %d\n", vizinhos[v]);
-                                printf("###################\n");
-
                                 nova_matriz[i][j] = 0;
-                                */
-
-                                nova_matriz[i][j] = 0;
-                            }
                             else
                                 nova_matriz[i][j] = matriz[i][j];
 
@@ -151,7 +156,7 @@ int main()
             }
 
             //copia dos resultados obtidos contidos na nova_matriz para a matriz
-            //e printar na tela o resultado da interacao
+            //e printar na tela o resultado da iteracao
             for(int i=1; i<mE-1; i++)
             {
                 for(int j=1; j<nE-1; j++)
