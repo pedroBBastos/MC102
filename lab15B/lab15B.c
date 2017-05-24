@@ -45,41 +45,61 @@ void pegaMovimentos(char vetor[], int inicio, int tam, char movimentos[])
  *     removePadrao(seq1, padrao2, seq2); // seq2 sera "+-*+-*-*+++" 
  * 
  */
-int removePadrao(char str[], char padrao[], char targetStr[]) {
-
+int removePadrao(char str[], char padrao[], char targetStr[]) 
+{
     int removeu = 0;
     int tamStr = strlen(str), tamPadrao = strlen(padrao);
 
-    if(tamPadrao > tamStr)
-        return removeu;
+    printf("str -> %s\n", str);
+    printf("padrao -> %s\n", padrao);
+    //printf("tamStr -> %d\n", tamStr);
+    //printf("tamPadrao -> %d\n", tamPadrao);
 
-    if(strcmp(str, padrao))
+    if(tamPadrao > tamStr)
     {
-        targetStr = "";
-        removeu = 1;
+        targetStr = str;
         return removeu;
     }
 
+    if(strcmp(str, padrao) == 0) // se sao iguais...
+    {
+        //printf("Entrou no strcmp\n");
+        targetStr = "";
+        removeu = 1;
+        //printf("targetStr do strcmp -> %s\n", targetStr);
+        return removeu;
+    }
+
+    //printf("*******************\n");
     int i=0, j=0;
     while(i+tamPadrao <= tamStr)
     {
         char seqMovimentos[tamPadrao+1]; //lembrar que strlen nao conta o '\0'
         pegaMovimentos(str, i, tamPadrao, seqMovimentos);
 
-        if(strcmp(seqMovimentos, padrao)) //atualizar indice de copia
+        printf("seqMovimentos -> %s\n", seqMovimentos);
+
+        if(strcmp(seqMovimentos, padrao) == 0) //atualizar indice de copia
         {
             i += tamPadrao;
             removeu = 1;
         }
+        else // problema esta quando nao entra no if acima -> oq fazer depois do if????
+            if(true)
+            {
+                targetStr[j] = str[i];
+                j++;
+            }
 
-        targetStr[j] = str[i];
         i++;
-        j++;
     }
 
     targetStr[j] = '\0';
+    //printf("*******************\n");
 
-    //printf("targetStr -> %s", targetStr);
+    printf("targetStr do final -> %s\n", targetStr);
+
+    //printf("----------------------------\n");
 
     return removeu;
 }
@@ -114,8 +134,8 @@ int removePadrao(char str[], char padrao[], char targetStr[]) {
  *     removeBloco(seq3, '*', seq4); // seq4 sera "" (sequencia vazia)
  * 
  */
-int removeBloco(char str[], char c, char targetStr[]) {
-    
+int removeBloco(char str[], char c, char targetStr[]) 
+{    
     int tam = strlen(str);
 
     if(tam == 0)
@@ -174,7 +194,8 @@ int removeBloco(char str[], char c, char targetStr[]) {
  *     substituiPadrao(seq2, padrao, novoPadrao, seq3);  // seq3 sera "*-*-*-*-*++" 
  * 
  */
-int substituiPadrao(char str[], char padrao[], char novoPadrao[], char targetStr[]) {
+int substituiPadrao(char str[], char padrao[], char novoPadrao[], char targetStr[]) 
+{
     int substituiu = 0;
     int tamStr = strlen(str), tamPadrao = strlen(padrao);
 
@@ -189,7 +210,6 @@ int substituiPadrao(char str[], char padrao[], char novoPadrao[], char targetStr
     }
 
     int i=0;
-    //while(i+tamPadrao-1 <= tamStr-1)
     while(i+tamPadrao <= tamStr)
     {
         char seqMovimentos[tamPadrao+1]; //lembrar que strlen nao conta o '\0'
