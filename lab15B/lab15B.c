@@ -1,10 +1,21 @@
 /* Laboratorio 15B - Brincando com cordas
- * Nome:
- * RA:
+ * Nome: Pedro Barros Bastos
+ * RA: 204481
  */
 
 #include <stdio.h>
 #include <string.h>
+
+void pegaMovimentos(char vetor[], int inicio, int tam, char movimentos[])
+{
+    //ps: tam eh o tamanho da seq. de movimentos a ser copiada para movimentos[]
+    //ou seja, '\0' nao conta
+
+    for(int i=0; i<tam; i++)
+        movimentos[i] = vetor[inicio+i];
+
+    movimentos[tam] = '\0';
+} 
 
 /* Funcao: removePadrao
  *
@@ -35,6 +46,42 @@
  * 
  */
 int removePadrao(char str[], char padrao[], char targetStr[]) {
+
+    int removeu = 0;
+    int tamStr = strlen(str), tamPadrao = strlen(padrao);
+
+    if(tamPadrao > tamStr)
+        return removeu;
+
+    if(strcmp(str, padrao))
+    {
+        targetStr = "";
+        removeu = 1;
+        return removeu;
+    }
+
+    int i=0, j=0;
+    while(i+tamPadrao <= tamStr)
+    {
+        char seqMovimentos[tamPadrao+1]; //lembrar que strlen nao conta o '\0'
+        pegaMovimentos(str, i, tamPadrao, seqMovimentos);
+
+        if(strcmp(seqMovimentos, padrao)) //atualizar indice de copia
+        {
+            i += tamPadrao;
+            removeu = 1;
+        }
+
+        targetStr[j] = str[i];
+        i++;
+        j++;
+    }
+
+    targetStr[j] = '\0';
+
+    //printf("targetStr -> %s", targetStr);
+
+    return removeu;
 }
 
 /* Funcao: removeBloco
@@ -68,6 +115,31 @@ int removePadrao(char str[], char padrao[], char targetStr[]) {
  * 
  */
 int removeBloco(char str[], char c, char targetStr[]) {
+    
+    int tam = strlen(str);
+
+    if(tam == 0)
+    {
+        targetStr = "";
+        return 0;
+    }
+
+    if(str[0] == c)
+    {
+        int i = 0;
+        while(str[i] != c && str[i] != '\0')
+            i++;
+
+        if(i == tam) // acabou a string e nao encontrou a segunda ocorrencia
+            targetStr = "";
+        else
+            pegaMovimentos(str, i+1, tam-i-1, targetStr); //tam-i-1 -> tamanho da seq. de movimentos
+
+        return 1;
+    }
+
+    targetStr = str;
+    return 0;
 }
 
 /* Funcao: substituiPadrao
@@ -103,4 +175,48 @@ int removeBloco(char str[], char c, char targetStr[]) {
  * 
  */
 int substituiPadrao(char str[], char padrao[], char novoPadrao[], char targetStr[]) {
+    int substituiu = 0;
+    int tamStr = strlen(str), tamPadrao = strlen(padrao);
+
+    if(tamPadrao > tamStr)
+        return substituiu;
+
+    if(strcmp(str, padrao))
+    {
+        targetStr = novoPadrao;
+        substituiu = 1;
+        return substituiu;
+    }
+
+    int i=0;
+    //while(i+tamPadrao-1 <= tamStr-1)
+    while(i+tamPadrao <= tamStr)
+    {
+        char seqMovimentos[tamPadrao+1]; //lembrar que strlen nao conta o '\0'
+        pegaMovimentos(str, i, tamPadrao, seqMovimentos);
+
+        if(strcmp(seqMovimentos, padrao)) //colocar no espaco do padrao o novoPadrao
+        {
+            for(int k=0; k<tamPadrao; k++)
+            {
+                targetStr[i] = novoPadrao[k];
+                i++;
+            }
+
+            substituiu = 1;
+        }
+        else
+            targetStr[i] = str[i];
+
+        i++;
+    }
+
+    while(str[i] != '\0')
+    {
+        targetStr[i] = str[i];
+        i++;
+    }
+
+    targetStr[i] = '\0';
+    return substituiu;
 }
