@@ -73,21 +73,25 @@ int removePadrao(char str[], char padrao[], char targetStr[]) //aparentemente, o
             i += tamPadrao;
             removeu = 1;
 
+            /*
             if(i < tamStr)
             {
                 targetStr[j] = str[i];
                 j++;
             }
+            */
         }
         else
-            if(i+tamPadrao < tamStr)
+            if(i+tamPadrao <= tamStr)
             {
                 targetStr[j] = str[i];
                 j++;
+                i++;
             }
-
-        i++;
     }
+
+    for(; i<tamStr; j++, i++)
+        targetStr[j] = str[i];
 
     targetStr[j] = '\0';
 
@@ -192,23 +196,20 @@ int substituiPadrao(char str[], char padrao[], char novoPadrao[], char targetStr
     if(tamPadrao > tamStr)
         return substituiu;
 
-    /*
-    if(strcmp(str, padrao))
-    {
-        targetStr = novoPadrao;
-        substituiu = 1;
-        return substituiu;
-    }
-    */
-
     int i=0;
     while(i+tamPadrao <= tamStr)
     {
         char seqMovimentos[tamPadrao+1]; //lembrar que strlen nao conta o '\0'
         pegaMovimentos(str, i, tamPadrao, seqMovimentos);
 
-        if(strcmp(seqMovimentos, padrao)) //colocar no espaco do padrao o novoPadrao
+        if(strcmp(seqMovimentos, padrao) == 0) //colocar no espaco do padrao o novoPadrao
         {
+            /*
+            printf("seqMovimentos -> %s\n", seqMovimentos);
+            printf("padrao -> %s\n", padrao);
+            printf("novoPadrao -> %s\n", novoPadrao);
+            */
+
             for(int k=0; k<tamPadrao; k++)
             {
                 targetStr[i] = novoPadrao[k];
@@ -229,5 +230,8 @@ int substituiPadrao(char str[], char padrao[], char novoPadrao[], char targetStr
     }
 
     targetStr[i] = '\0';
+
+    //printf("targetStr -> %s\n", targetStr);
+
     return substituiu;
 }

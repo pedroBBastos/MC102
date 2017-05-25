@@ -1,0 +1,8 @@
+GDB Debugger
+https://sourceware.org/gdb/onlinedocs/gdb
+
+https://stackoverflow.com/questions/5276988/how-to-set-break-point-on-one-file-of-a-project-which-has-many-files-with-same-n
+
+https://gcc.gnu.org/onlinedocs/gcc-3.4.5/gcc/Debugging-Options.html
+
+gcc lab15B.c lab15B_main.c -g -o exec
