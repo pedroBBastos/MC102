@@ -3,6 +3,12 @@
  * RA: 204481
  */
 
+ /*
+    Para testar um metodo, apagar o uso dos outros dois?
+    So eh printada uma operacao na tela se ela foi realizada, mostrando depois dos dois pontos
+    o resultado obtido
+ */
+
 #include <stdio.h>
 #include <string.h>
 
@@ -45,15 +51,10 @@ void pegaMovimentos(char vetor[], int inicio, int tam, char movimentos[])
  *     removePadrao(seq1, padrao2, seq2); // seq2 sera "+-*+-*-*+++" 
  * 
  */
-int removePadrao(char str[], char padrao[], char targetStr[]) 
+int removePadrao(char str[], char padrao[], char targetStr[]) //aparentemente, ok
 {
     int removeu = 0;
     int tamStr = strlen(str), tamPadrao = strlen(padrao);
-
-    printf("str -> %s\n", str);
-    printf("padrao -> %s\n", padrao);
-    //printf("tamStr -> %d\n", tamStr);
-    //printf("tamPadrao -> %d\n", tamPadrao);
 
     if(tamPadrao > tamStr)
     {
@@ -61,31 +62,25 @@ int removePadrao(char str[], char padrao[], char targetStr[])
         return removeu;
     }
 
-    if(strcmp(str, padrao) == 0) // se sao iguais...
-    {
-        //printf("Entrou no strcmp\n");
-        targetStr = "";
-        removeu = 1;
-        //printf("targetStr do strcmp -> %s\n", targetStr);
-        return removeu;
-    }
-
-    //printf("*******************\n");
     int i=0, j=0;
     while(i+tamPadrao <= tamStr)
     {
         char seqMovimentos[tamPadrao+1]; //lembrar que strlen nao conta o '\0'
         pegaMovimentos(str, i, tamPadrao, seqMovimentos);
 
-        printf("seqMovimentos -> %s\n", seqMovimentos);
-
         if(strcmp(seqMovimentos, padrao) == 0) //atualizar indice de copia
         {
             i += tamPadrao;
             removeu = 1;
+
+            if(i < tamStr)
+            {
+                targetStr[j] = str[i];
+                j++;
+            }
         }
-        else // problema esta quando nao entra no if acima -> oq fazer depois do if????
-            if(true)
+        else
+            if(i+tamPadrao < tamStr)
             {
                 targetStr[j] = str[i];
                 j++;
@@ -95,11 +90,6 @@ int removePadrao(char str[], char padrao[], char targetStr[])
     }
 
     targetStr[j] = '\0';
-    //printf("*******************\n");
-
-    printf("targetStr do final -> %s\n", targetStr);
-
-    //printf("----------------------------\n");
 
     return removeu;
 }
@@ -202,12 +192,14 @@ int substituiPadrao(char str[], char padrao[], char novoPadrao[], char targetStr
     if(tamPadrao > tamStr)
         return substituiu;
 
+    /*
     if(strcmp(str, padrao))
     {
         targetStr = novoPadrao;
         substituiu = 1;
         return substituiu;
     }
+    */
 
     int i=0;
     while(i+tamPadrao <= tamStr)
@@ -225,9 +217,8 @@ int substituiPadrao(char str[], char padrao[], char novoPadrao[], char targetStr
 
             substituiu = 1;
         }
-        else
-            targetStr[i] = str[i];
-
+        
+        targetStr[i] = str[i];
         i++;
     }
 

@@ -8,5 +8,10 @@ for dirs in ./*/; do
 
 	rm -rf testes
 
+	for executavel in ./*.out; do
+		echo "Apagando executavel $executavel em $currentDir"
+		rm -rf executavel
+	done
+
 	cd ..
 done
