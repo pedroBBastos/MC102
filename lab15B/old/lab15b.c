@@ -16,7 +16,6 @@
     Metodo para colocar no vetor movimentos ou dado subconjunto
     de movimentos de vetor
 */
-/*
 void pegaMovimentos(char vetor[], int inicio, int tam, char movimentos[])
 {
     //ps: tam eh o tamanho da seq. de movimentos a ser copiada para movimentos[]
@@ -27,7 +26,6 @@ void pegaMovimentos(char vetor[], int inicio, int tam, char movimentos[])
 
     movimentos[tam] = '\0';
 } 
-*/
 
 /* Funcao: removePadrao
  *
@@ -73,14 +71,7 @@ int removePadrao(char str[], char padrao[], char targetStr[]) //aparentemente, o
     while(i+tamPadrao <= tamStr) // se ainda for possivel verificar se o padrao esta dentro de str
     {
         char seqMovimentos[tamPadrao+1]; //lembrar que strlen nao conta o '\0'
-        //pegaMovimentos(str, i, tamPadrao, seqMovimentos);
-
-
-        for(int k=0; k<tamPadrao; k++)
-            seqMovimentos[k] = str[i+k];
-        seqMovimentos[tamPadrao] = '\0';
-
-
+        pegaMovimentos(str, i, tamPadrao, seqMovimentos);
 
         if(strcmp(seqMovimentos, padrao) == 0) //atualizar indice de copia
         {
@@ -154,12 +145,7 @@ int removeBloco(char str[], char c, char targetStr[])
         if(i == tam) // acabou a string e nao encontrou a segunda ocorrencia
             targetStr = "";
         else
-        {
-            //pegaMovimentos(str, i+1, tam-(i+1), targetStr); //tam-i-1 -> tamanho da seq. de movimentos
-            for(int k=0; k<tam-(i+1); k++)
-                targetStr[k] = str[(i+1)+k];
-            targetStr[tam-(i+1)] = '\0';
-        }
+            pegaMovimentos(str, i+1, tam-(i+1), targetStr); //tam-i-1 -> tamanho da seq. de movimentos
 
         return 1;
     }
@@ -212,13 +198,7 @@ int substituiPadrao(char str[], char padrao[], char novoPadrao[], char targetStr
     while(i+tamPadrao <= tamStr) // se ainda for possivel verificar se o padrao esta dentro de str
     {
         char seqMovimentos[tamPadrao+1]; //lembrar que strlen nao conta o '\0'
-        //pegaMovimentos(str, i, tamPadrao, seqMovimentos);
-
-
-        for(int k=0; k<tamPadrao; k++)
-            seqMovimentos[k] = str[i+k];
-        seqMovimentos[tamPadrao] = '\0';
-
+        pegaMovimentos(str, i, tamPadrao, seqMovimentos);
 
         if(strcmp(seqMovimentos, padrao) == 0) //colocar no espaco do padrao o novoPadrao
         {
