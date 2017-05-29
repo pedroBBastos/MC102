@@ -3,8 +3,8 @@
 
 /*
 ------------------------------------------------------------------------------------------------------------
-Aluno(a):
-RA:
+Aluno(a): Pedro Barros Bastos
+RA: 204481
 ------------------------------------------------------------------------------------------------------------
 */
 
@@ -25,7 +25,18 @@ Parametros:
 */
 
 void ordena(int *conj, int tam) {
+  int i, j;
+  int aux;
 
+  for (i = tam - 1; i > 0; i--) {
+    for (j = 0; j < i; j++) {
+      if (conj[j] > conj[j + 1]) {
+        aux = conj[j];
+        conj[j] = conj[j + 1];
+        conj[j + 1] = aux;
+      }
+    }
+  }
 }
 
 /*
@@ -50,7 +61,12 @@ Retorno
 */
 
 int pertence(int *conj, int tam, int elemento) {
-  return 1;
+
+  for(int i=0; i < tam; i++)
+    if(conj[i] == elemento)
+      return 1;
+
+  return 0;
 }
 
 /*
@@ -75,7 +91,25 @@ Retorno
 */
 
 int contido(int *conj_A, int *conj_B, int tam_A, int tam_B) {
-  return 1;
+
+  for(int i=0; i<tam_A; i++) {
+    
+    int elementoAtualContido = 0;
+
+    for(int j=0; j<tam_B; j++) {
+      if(conj_B[j] == conj_A[i]) { // verifica se cada elemento do conjuntoA (primeiro for)
+                                 // tambem esta no conjuntoB (segundo for)
+        elementoAtualContido = 1;
+        break;
+      }
+    }
+
+    if (!elementoAtualContido) // quando chegar aqui e letraAtualContida for falso, algum elemento
+                            // do conjunto1 nao esta no conjunto2, podendo se retornar falso
+      return 0;
+  }
+
+  return 1; // se chegou ate aqui, todos os elementos de conjA estao contidos em conjB -> verdadeiro
 }
 
 /*
@@ -102,7 +136,13 @@ Retorno
 */
 
 int* init(int *tam, int *cap) {
-  return NULL;
+  int *conj;
+
+  *tam = 0;
+  *cap = 2;
+
+  conj = malloc(2*sizeof(int));
+  return conj;
 }
 
 /*
@@ -135,7 +175,16 @@ Retorno
 */
 
 int* adicao(int *conj, int *tam, int *cap, int elemento) {
-  return NULL;
+
+  if(conj == NULL){
+    int *novo_conj = init(tam, cap);
+    return novo_conj;
+  }
+
+  if(!pertence(conj, *tam, elemento)){
+  }
+  
+  return conj;
 }
 
 /*
