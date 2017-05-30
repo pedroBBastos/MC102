@@ -5,4 +5,4 @@ https://stackoverflow.com/questions/5276988/how-to-set-break-point-on-one-file-o
 
 https://gcc.gnu.org/onlinedocs/gcc-3.4.5/gcc/Debugging-Options.html
 
-gcc lab15B.c lab15B_main.c -g -o exec
+gcc lab16.c lab16_main.c -g -o exec
