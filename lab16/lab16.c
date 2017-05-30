@@ -196,7 +196,8 @@ int* adicao(int *conj, int *tam, int *cap, int elemento) {
       *tam = *tam + 1;
 
       //conj = novo_conj;
-      //return conj;
+      //return conj; --> isso aqui nao pode -> quando sair do metodo, novo_conj deixara de existir, o que
+      //tbem acabara ocorrendo com conj
       return novo_conj;
     }
 
@@ -256,8 +257,6 @@ int* subtracao(int *conj, int *tam, int *cap, int elemento) {
       for (int i=0; i < *tam; i++)
         novo_conj[i] = conj[i];
       
-      //conj = novo_conj;
-      //return conj;
       return novo_conj;
     }
 
@@ -301,10 +300,10 @@ int* uniao(int *conj_A, int *conj_B, int tam_A, int tam_B, int *tam_C, int *cap_
   int *conj_C = init(tam_C, cap_C);
 
   for(int i=0; i<tam_A; i++)
-    adicao(conj_C, tam_C, cap_C, conj_A[i]);
+    conj_C = adicao(conj_C, tam_C, cap_C, conj_A[i]);
 
   for(int j=0; j<tam_B; j++)
-    adicao(conj_C, tam_C, cap_C, conj_B[j]);
+    conj_C = adicao(conj_C, tam_C, cap_C, conj_B[j]);
 
   return conj_C;
 }
@@ -356,7 +355,6 @@ int* intersecao(int *conj_A, int *conj_B, int tam_A, int tam_B, int *tam_C, int 
 
   for(int i=0; i<tam_A; i++)
     if(pertence(conj_B, tam_B, conj_A[i]))
-      //adicao(conj_C, tam_C, cap_C, conj_A[i]);
       conj_C = adicao(conj_C, tam_C, cap_C, conj_A[i]);
 
   return conj_C;
@@ -394,14 +392,11 @@ Retorno
 
 int* diferenca(int *conj_A, int *conj_B, int tam_A, int tam_B, int *tam_C, int *cap_C) {
 
-  //bug aqui -> quando eh necessario aumentar a capacidade do vetor de diferença,
-  //buga, colocando lixo na ultima posicao do vetor de diferença
-
   int *conj_C = init(tam_C, cap_C);
 
   for(int i=0; i<tam_A; i++)
     if(!pertence(conj_B, tam_B, conj_A[i]))
-      adicao(conj_C, tam_C, cap_C, conj_A[i]);
+      conj_C = adicao(conj_C, tam_C, cap_C, conj_A[i]);
 
   return conj_C;
 }
