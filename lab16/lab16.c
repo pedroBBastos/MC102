@@ -181,7 +181,24 @@ int* adicao(int *conj, int *tam, int *cap, int elemento) {
     return novo_conj;
   }
 
-  if(!pertence(conj, *tam, elemento)){
+  if(!pertence(conj, *tam, elemento)) {
+
+    if(*tam == *cap) { // o conjunto tera de ser realocado com o dobro da capacidade
+
+      *cap = 2*(*cap);
+      int *novo_conj = malloc((*cap)*sizeof(int));
+
+      for (int i=0; i < *tam; i++)
+        novo_conj[i] = conj[i];
+      
+      novo_conj[*tam] = elemento;
+      *tam = *tam + 1;  
+      return novo_conj;
+    }
+
+    conj[*tam] = elemento;
+    *tam = *tam + 1;
+    return conj;
   }
   
   return conj;
@@ -213,7 +230,35 @@ Retorno
 */
 
 int* subtracao(int *conj, int *tam, int *cap, int elemento) {
-  return NULL;
+
+  if(pertence(conj, *tam, elemento)) {
+
+    for(int i=0; i < *tam; i++) // for ate achar o indice da letra procurada
+      if(conj[i] == elemento) {
+        
+        for(int j=i; j < *tam-1; j++) // dai em diante, deslocar o vetor para apagar a letra do vetor
+          conj[j] = conj[j+1];
+
+        break;
+      }
+
+    *tam = *tam - 1;
+
+    if (*cap > 2 && *tam <= (*cap/4)) {
+
+      *cap = (*cap)/2;
+      int *novo_conj = malloc((*cap)*sizeof(int));
+
+      for (int i=0; i < *tam; i++)
+        novo_conj[i] = conj[i];
+      
+      return novo_conj;
+    }
+
+    return conj;
+  }
+
+  return conj;
 }
 
 /*
