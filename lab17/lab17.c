@@ -1,6 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+  Nome : Pedro Barros Bastos    RA : 204481
+
+    Este arquivo tem por objetivo fornecer fornecer as funções para gerenciar
+  uma base de dados com registros acadêmicos de alunos contendo RA, telefone e nome para
+  cada aluno.
+*/
+
 typedef struct {
   int ra, telefone;
   char nome[100];
@@ -26,7 +34,7 @@ void criar_base(Base *base, int n) {
   (*base).capacidade = n;
   (*base).alunos = malloc(n*sizeof(Aluno));
 
-  printf("Base criada. \n");
+  printf("Base criada.\n");
 }
 
 /* Funcao: buscar
@@ -64,7 +72,7 @@ void imprimir(Base *base, int ra) {
     printf("%d - %d - %s\n", aluno.ra, aluno.telefone, aluno.nome);
   }
   else
-    printf("Aluno %d nao encontrado.\n");
+    printf("Aluno %d nao encontrado.\n", ra);
   
 }
 
@@ -85,7 +93,7 @@ void adicionar(Base *base, int ra, int telefone, char *nome) {
 
   if(indice != -1) // tem, portanto, alterar
   {
-    /*
+    
     (*base).alunos[indice].telefone = telefone;
 
     //(*base).alunos[indice].nome = nome; // errado -> atribuicao de um ponteiro a um tipo vetor(ja alocado de 100)
@@ -99,31 +107,37 @@ void adicionar(Base *base, int ra, int telefone, char *nome) {
 
     printf("Alterado: %d - %d - %s\n", ra, telefone, nome);
     return;
-    */
+    
   }
 
   // se chegar ate aqui eh pq nao encontrou o aluno na base. Portanto, inseri-lo
 
   if((*base).armazenado < (*base).capacidade)
   {
-    /*
-    char novoNome[100];
+    
+    Aluno novoAluno;
+
+    novoAluno.ra = ra;
+    novoAluno.telefone = telefone;
+
     int k=0;
     while(nome[k] != '\0')
     {
-      novoNome[k] = nome[k];
+      novoAluno.nome[k] = nome[k];
       k++;
     }
-    novoNome[k] = '\0';
+    novoAluno.nome[k] = '\0';
     
-    Aluno novoAluno = {ra, telefone, novoNome};
+
     (*base).alunos[(*base).armazenado] = novoAluno;
     (*base).armazenado++;
     
     printf("Adicionado: %d - %d - %s\n", ra, telefone, nome);
     return;
-    */
+    
   }
+
+  //se chegou ate aqui, a base ja esta cheia
 
   printf("Erro: base cheia.\n");
 }
@@ -147,10 +161,12 @@ void remover(Base *base, int ra) {
       (*base).alunos[i] = (*base).alunos[i+1];
 
     (*base).armazenado--;
-    printf("Aluno %d removido.", ra);
+    printf("Aluno %d removido.\n", ra);
     
     return;
   }
+
+  //se chegar atee aqui, o aluno procurado nao esta na base.
 
   printf("Aluno %d nao encontrado.\n", ra);
 }
