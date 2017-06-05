@@ -3,12 +3,18 @@
 #include <string.h>
 #include <math.h>
 
+void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **imagemB,
+                      int *linhas, int *colunas);
+void inicializaMatriz(int **matriz, int linhas, int colunas);
 void cinza(int **imagemR, int **imagemG, int **imagemB,
            int **novaR, int **novaG, int **novaB, int linhas, int colunas);
 void esticar(int **imagemR, int **imagemG, int **imagemB,
              int **novaR, int **novaG, int **novaB, int linhas, int colunas);
 void normalizar(int **imagemR, int **imagemG, int **imagemB,
                 int **novaR, int **novaG, int **novaB, int linhas, int colunas);
+void escreveArquivoSaida(char *arquivoSaida, int **novaR, int **novaG, int **novaB,
+                         int linhas, int colunas);
+void liberaMatriz(int **matriz, int linhas, int colunas);
 
 int main(int argc, char **argv) 
 {
@@ -31,7 +37,7 @@ int main(int argc, char **argv)
   char *arqSaida = argv[2];
 
   scanf("%s", efeito);
-  
+
   
   FILE *pArqEntrada = fopen(arqEntrada, "r");
 
@@ -142,6 +148,11 @@ int main(int argc, char **argv)
   }
 
   return 0;
+}
+
+void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **imagemB,
+                      int *linhas, int *colunas)  
+{
 }
 
 void cinza(int **imagemR, int **imagemG, int **imagemB,
