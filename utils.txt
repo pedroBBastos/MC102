@@ -8,3 +8,5 @@ https://gcc.gnu.org/onlinedocs/gcc-3.4.5/gcc/Debugging-Options.html
 gcc lab16.c lab16_main.c -g -o exec
 
 gcc -std=c99 -pedantic -Wall -o lab18 lab18.c -lm
+
+gcc -std=c99 -pedantic -Wall -o lab18 lab18.c -lm
