@@ -5,7 +5,7 @@
 
 void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **imagemB,
                       int *linhas, int *colunas);
-void inicializaMatriz(int **matriz, int linhas, int colunas);
+void inicializaMatriz(int ***matriz, int linhas, int colunas);
 void cinza(int **imagemR, int **imagemG, int **imagemB,
            int **novaR, int **novaG, int **novaB, int linhas, int colunas);
 void esticar(int **imagemR, int **imagemG, int **imagemB,
@@ -134,15 +134,9 @@ void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **
     }
     while(c != '\n'); // P3
 
-    //printf("saiu do while\n");
-
-    
     //leitura das linhas e colunas que o arquivo possui
     fscanf(pArqEntrada, "%d", colunas);
     fscanf(pArqEntrada, "%d", linhas);
-
-    //printf("colunas %d\n", *colunas);
-    //printf("linhas %d\n", *linhas);
 
     fscanf(pArqEntrada, "%c", &c);
     
@@ -153,15 +147,14 @@ void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **
     while(c != '\n'); // 255
 
     //alocação dinamica dos vetores que serao necessarios
-    /*
-    inicializaMatriz(imagemR, *linhas, *colunas);
-    inicializaMatriz(imagemG, *linhas, *colunas);
-    inicializaMatriz(imagemB, *linhas, *colunas);
-    */
+    inicializaMatriz(&imagemR, *linhas, *colunas);
+    inicializaMatriz(&imagemG, *linhas, *colunas);
+    inicializaMatriz(&imagemB, *linhas, *colunas);
+    
 
-    imagemR = malloc(*linhas*sizeof(int *));
-    imagemG = malloc(*linhas*sizeof(int *));
-    imagemB = malloc(*linhas*sizeof(int *));
+    //imagemR = malloc(*linhas*sizeof(int *));
+    //imagemG = malloc(*linhas*sizeof(int *));
+    //imagemB = malloc(*linhas*sizeof(int *));
 
     for(int i=0; i<*linhas; i++)
     {
@@ -178,28 +171,11 @@ void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **
         fscanf(pArqEntrada, "%d", &imagemR[i][j]);
         fscanf(pArqEntrada, "%d", &imagemG[i][j]);
         fscanf(pArqEntrada, "%d", &imagemB[i][j]);
-
-        /*
-        fscanf(pArqEntrada, "%d", &r);
-        fscanf(pArqEntrada, "%d", &g);
-        fscanf(pArqEntrada, "%d", &b);
-
-        printf("r -> %d\n", r);
-        printf("g -> %d\n", g);
-        printf("b -> %d\n", b);
-
-        printf("-------------\n");
-        */
-
-
-        //imagemR[i][j] = r;
-        //imagemG[i][j] = g;
-        //imagemB[i][j] = b;
+	
       }
     }
 
     fclose(pArqEntrada); // fclose ja da o free no ponteiro passado como parametro
-
 
     /*
     printf("Printando conteudo lido\n");
@@ -221,16 +197,28 @@ void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **
     printf("NAO abriu arquivo %d\n", *linhas);
 }
 
-void inicializaMatriz(int **matriz, int linhas, int colunas)
-{
-  //printf("colunas %d\n", colunas);
-  //printf("linhas %d\n", linhas);
+/*
+jeito mais facil para se inicializar uma matriz
+   ao inves de se passar a matriz como paramatro
+   retornar a matriz inicializada -> retorna ponteiro de ponteiro
 
+int **inicializaMatriz(int linhas, int colunas)
+{
   matriz = malloc(linhas*sizeof(int *));
 
   for(int i=0; i<linhas; i++)
-    //matriz[i] = calloc(colunas, sizeof(int));
     matriz[i] = malloc(colunas*sizeof(int));
+
+  return matriz;
+}
+*/
+
+void inicializaMatriz(int ***matriz, int linhas, int colunas)
+{
+  (*matriz) = malloc(linhas*sizeof(int *));
+
+  for(int i=0; i<linhas; i++)
+    (*matriz)[i] = malloc(colunas*sizeof(int));
 }
 
 void cinza(int **imagemR, int **imagemG, int **imagemB,
@@ -259,5 +247,6 @@ void liberaMatriz(int **matriz, int linhas)
     free(matriz[i]);
   
   free(matriz);
+  //free(matriz);
   printf("Liberou matriz\n");
 }
