@@ -3,30 +3,31 @@
 #include <string.h>
 #include <math.h>
 
-void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **imagemB,
+#define MAX 128
+
+void leArquivoEntrada(char *arquivoEntrada, int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
                       int *linhas, int *colunas);
-void inicializaMatriz(int ***matriz, int linhas, int colunas);
-void cinza(int **imagemR, int **imagemG, int **imagemB,
-           int **novaR, int **novaG, int **novaB, int linhas, int colunas);
-void esticar(int **imagemR, int **imagemG, int **imagemB,
-             int **novaR, int **novaG, int **novaB, int linhas, int colunas);
-void normalizar(int **imagemR, int **imagemG, int **imagemB,
-                int **novaR, int **novaG, int **novaB, int linhas, int colunas);
-void escreveArquivoSaida(char *arquivoSaida, int **novaR, int **novaG, int **novaB,
+void cinza(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
+           int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX], int linhas, int colunas);
+void esticar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
+             int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX], int linhas, int colunas);
+void normalizar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
+                int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX], int linhas, int colunas);
+void escreveArquivoSaida(char *arquivoSaida, int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX],
                          int linhas, int colunas);
-void liberaMatriz(int **matriz, int linhas);
 
 int main(int argc, char **argv) 
 {
+
   if (argc != 3) 
   {
-
     fprintf(stderr, "Argumentos invalidos. Use:\n");
     fprintf(stderr, "./lab18 <arqEntrada> <arqSaida>\n");
     fprintf(stderr, "Usado:");
 
-    for (int i=0; i<argc; i++) 
+    for (int i=0; i<argc; i++) {
 	    fprintf(stderr, " %s", argv[i]);
+    }
 
     fprintf(stderr, "\n");
     return 1;
@@ -34,91 +35,44 @@ int main(int argc, char **argv)
 
   char efeito[20];
   char *arqEntrada = argv[1];
-  char *arqSaida = argv[2];
+  //char *arqSaida = argv[2];
 
-  int **imagemR = NULL, **imagemG = NULL, **imagemB = NULL; // matrizes com os dados RGB dos pixels da imagem de entrada
-  int *linhas = malloc(sizeof(int)), *colunas = malloc(sizeof(int)); // ponteiros para a qtd de linhas e colunas do arquivo de entrada
-    // dando malloc aqui pq se passar null da core dumped -> primeiro deve-se assegurar que a regiao da memoria
-    //para onde se deve atribuir valor para onde o ponteiro esta apontando esteja alocada
-  int **novaR = NULL, **novaG = NULL, **novaB = NULL; // matrizes com os dados RGB dos pixels da imagem de saida
+  int imagemR[MAX][MAX], imagemG[MAX][MAX], imagemB[MAX][MAX]; // matrizes com os dados RGB dos pixels da imagem de entrada
+  int novaR[MAX][MAX], novaG[MAX][MAX], novaB[MAX][MAX];
+  int linhas, colunas;
 
   scanf("%s", efeito);
 
-  printf("Efeito %s\n", efeito);
+  leArquivoEntrada(arqEntrada, imagemR, imagemG, imagemB, &linhas, &colunas); // leitura do arquivo de entrada
 
-  leArquivoEntrada(arqEntrada, imagemR, imagemG, imagemB, linhas, colunas); // leitura do arquivo de entrada
-
-  //inicializaMatriz(novaR, *linhas, *colunas);
-  //inicializaMatriz(novaG, *linhas, *colunas);
-  //inicializaMatriz(novaB, *linhas, *colunas);
+  if(strcmp(efeito, "cinza") == 0)
+    cinza(imagemR, imagemG, imagemB,
+          novaR, novaG, novaB, linhas, colunas);
+  else
+    if(strcmp(efeito, "esticar") == 0)
+      esticar(imagemR, imagemG, imagemB,
+              novaR, novaG, novaB, linhas, colunas);
+    else
+      normalizar(imagemR, imagemG, imagemB,
+          novaR, novaG, novaB, linhas, colunas);
 
   /*
-  if(strcmp(efeito, "cinza") == 0)
-      cinza(imagemR, imagemG, imagemB,
-            novaR, novaG, novaB, *linhas, *colunas);
-    else
-      if(strcmp(efeito, "esticar") == 0)
-        esticar(imagemR, imagemG, imagemB,
-                novaR, novaG, novaB, *linhas, *colunas);
-      else
-        normalizar(imagemR, imagemG, imagemB,
-            novaR, novaG, novaB, *linhas, *colunas); */
-
-
-  //liberaMatriz(imagemR, *linhas);
-  //liberaMatriz(imagemG, *linhas);
-  //liberaMatriz(imagemB, *linhas);
-    
-    /*
-    printf("Printando conteudo lido\n");
-
-    for(int i=0; i<linhas; i++)
+  for(int i=0; i<linhas; i++)
+  {
+    for(int j=0; j<colunas; j++)
     {
-      for(int j=0; j<colunas; j++)
-      {
-        printf("%d %d %d - ", imagemR[i][j], imagemG[i][j], imagemB[i][j]);
-      }
-      printf("\n");
+      printf("%d %d %d - ", novaR[i][j], novaG[i][j], novaB[i][j]);
     }
+    printf("\n");
+  }
 
-    printf("Terminou de ler\n");
-    
-
-    if(strcmp(efeito, "cinza") == 0)
-      cinza(imagemR, imagemG, imagemB,
-            novaR, novaG, novaB, linhas, colunas);
-    else
-      if(strcmp(efeito, "esticar") == 0)
-        esticar(imagemR, imagemG, imagemB,
-                novaR, novaG, novaB, linhas, colunas);
-      else
-        normalizar(imagemR, imagemG, imagemB,
-            novaR, novaG, novaB, linhas, colunas);
-
-    //escrever no arquivo de saida
-    
-    //liberando memoria alocada  para as matrizes de pixels
-    for(int i=0; i<linhas; i++)
-    {
-      free(imagemR[i]);
-      free(imagemG[i]);
-      free(imagemB[i]);
-      free(novaR[i]);
-      free(novaG[i]);
-      free(novaB[i]);
-    }
-    free(imagemR);
-    free(imagemG);
-    free(imagemB);
-    free(novaR);
-    free(novaG);
-    free(novaB);
-    */
+  printf("Terminou de ler\n");
+  */
 
   return 0;
 }
 
-void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **imagemB,
+void leArquivoEntrada(char *arquivoEntrada, int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
                       int *linhas, int *colunas)
 {
   FILE *pArqEntrada = fopen(arquivoEntrada, "r");
@@ -146,22 +100,6 @@ void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **
     }
     while(c != '\n'); // 255
 
-    //alocação dinamica dos vetores que serao necessarios
-    inicializaMatriz(&imagemR, *linhas, *colunas);
-    inicializaMatriz(&imagemG, *linhas, *colunas);
-    inicializaMatriz(&imagemB, *linhas, *colunas);
-    
-
-    //imagemR = malloc(*linhas*sizeof(int *));
-    //imagemG = malloc(*linhas*sizeof(int *));
-    //imagemB = malloc(*linhas*sizeof(int *));
-
-    for(int i=0; i<*linhas; i++)
-    {
-      imagemR[i] = malloc(*colunas*sizeof(int));
-      imagemG[i] = malloc(*colunas*sizeof(int));
-      imagemB[i] = malloc(*colunas*sizeof(int));
-    }
 
     for(int i=0; i<*linhas; i++)
     {
@@ -176,77 +114,92 @@ void leArquivoEntrada(char *arquivoEntrada, int **imagemR, int **imagemG, int **
     }
 
     fclose(pArqEntrada); // fclose ja da o free no ponteiro passado como parametro
-
-    /*
-    printf("Printando conteudo lido\n");
-
-    for(int i=0; i<*linhas; i++)
-    {
-      for(int j=0; j<*colunas; j++)
-      {
-        printf("%d %d %d - ", imagemR[i][j], imagemG[i][j], imagemB[i][j]);
-      }
-      printf("\n");
-    }
-
-    printf("Terminou de ler\n");
-    */
-
   }
   else
     printf("NAO abriu arquivo %d\n", *linhas);
 }
 
-/*
-jeito mais facil para se inicializar uma matriz
-   ao inves de se passar a matriz como paramatro
-   retornar a matriz inicializada -> retorna ponteiro de ponteiro
-
-int **inicializaMatriz(int linhas, int colunas)
-{
-  matriz = malloc(linhas*sizeof(int *));
-
-  for(int i=0; i<linhas; i++)
-    matriz[i] = malloc(colunas*sizeof(int));
-
-  return matriz;
-}
-*/
-
-void inicializaMatriz(int ***matriz, int linhas, int colunas)
-{
-  (*matriz) = malloc(linhas*sizeof(int *));
-
-  for(int i=0; i<linhas; i++)
-    (*matriz)[i] = malloc(colunas*sizeof(int));
-}
-
-void cinza(int **imagemR, int **imagemG, int **imagemB,
-           int **novaR, int **novaG, int **novaB, int linhas, int colunas)
-{
-}
-
-void esticar(int **imagemR, int **imagemG, int **imagemB,
-             int **novaR, int **novaG, int **novaB, int linhas, int colunas)
-{
-}
-
-void normalizar(int **imagemR, int **imagemG, int **imagemB,
-                int **novaR, int **novaG, int **novaB, int linhas, int colunas)
-{ 
-}
-
-void escreveArquivoSaida(char *arquivoSaida, int **novaR, int **novaG, int **novaB,
-                         int linhas, int colunas)
-{
-}
-
-void liberaMatriz(int **matriz, int linhas)
+void cinza(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
+           int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX], int linhas, int colunas)
 {
   for(int i=0; i<linhas; i++)
-    free(matriz[i]);
-  
-  free(matriz);
-  //free(matriz);
-  printf("Liberou matriz\n");
+    for(int j=0; j<colunas; j++)
+    {
+      int value = (int)floor(((double)(imagemR[i][j] + imagemG[i][j] + imagemB[i][j])) / 3);
+      novaR[i][j] = value;
+      novaG[i][j] = value;
+      novaB[i][j] = value;
+    }
+
+  printf("Printando conteudo lido\n");
+}
+
+void esticar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
+             int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX], int linhas, int colunas)
+{
+  int Rmax = imagemR[0][0], Gmax = imagemG[0][0], Bmax = imagemB[0][0];
+  int Rmin = imagemR[0][0], Gmin = imagemG[0][0], Bmin = imagemB[0][0];
+
+  for(int i=0; i<linhas; i++)
+    for(int j=0; j<colunas; j++)
+    {
+      if(imagemR[i][j] > Rmax)
+        Rmax = imagemR[i][j];
+
+      if(imagemR[i][j] < Rmax)
+        Rmin = imagemR[i][j];
+
+
+      if(imagemG[i][j] > Gmax)
+        Gmax = imagemG[i][j];
+
+      if(imagemG[i][j] < Gmax)
+        Gmin = imagemG[i][j];
+
+
+      if(imagemB[i][j] > Bmax)
+        Bmax = imagemB[i][j];
+
+      if(imagemB[i][j] < Bmax)
+        Bmin = imagemB[i][j];
+    }
+
+  for(int i=0; i<linhas; i++)
+    for(int j=0; j<colunas; j++)
+    {
+      double sub = Rmax - Rmin;
+      if(sub != 0)
+        novaR[i][j] = (int)((double)(imagemR[i][j] - Rmin) * 255)/sub;
+
+      sub = Gmax - Gmin;
+      if(sub != 0)
+        novaG[i][j] = (int)((double)(imagemG[i][j] - Gmin) * 255)/sub;
+
+      sub = Bmax - Bmin;
+      if(sub != 0)
+        novaB[i][j] = (int)((double)(imagemB[i][j] - Bmin) * 255)/sub;
+    }
+}
+
+void normalizar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
+                int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX], int linhas, int colunas)
+{
+  for(int i=0; i<linhas; i++)
+    for(int j=0; j<colunas; j++)
+    {
+      double soma = (double)(imagemR[i][j] + imagemG[i][j] + imagemB[i][j]);
+
+      if(soma != 0)
+      {
+        novaR[i][j] = (int)((double)imagemR[i][j] * 255 / soma);
+        novaG[i][j] = (int)((double)imagemG[i][j] * 255 / soma);
+        novaB[i][j] = (int)((double)imagemB[i][j] * 255 / soma);
+      }
+      else
+      {
+        novaR[i][j] = 0;
+        novaG[i][j] = 0;
+        novaB[i][j] = 0;
+      }
+    }
 }
