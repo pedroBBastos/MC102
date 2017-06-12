@@ -3,16 +3,35 @@
 #include <string.h>
 #include <math.h>
 
-#define MAX 128
+/*
+    Este programa tem por objetivo realizar operações de manipulação de imagens a partir
+  de um arquivo .ppm (arquivo texto com as descrições dos pixels) dado como entrada, retornando
+  como saída outro arquivo com a devida alteração que foi requisitada pelo usuario.
+    As operações que podem ser realizadas são a conversão em escala ciza, esticar contraste e normalizar.
 
+  Nome : Pedro Barros Bastos    RA : 204481
+
+*/
+
+#define MAX 128 // constante com o maximo de dimensoes que poderao ser lidas
+
+//metodo para a leitura do arquivo de entrada
 void leArquivoEntrada(char *arquivoEntrada, int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
                       int *linhas, int *colunas);
+
+//metodo para o calculo da operacao de conversao em escala cinza
 void cinza(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
            int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX], int linhas, int colunas);
+
+//metodo para o calculo da operacao de esticar contraste
 void esticar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
              int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX], int linhas, int colunas);
+
+//metodo para o calculo da operacao de normalizacao
 void normalizar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
                 int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX], int linhas, int colunas);
+
+//metodo para escrever os resultados obtidos dos calculos no arquivo de saida
 void escreveArquivoSaida(char *arquivoSaida, int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX],
                          int linhas, int colunas);
 
@@ -37,13 +56,15 @@ int main(int argc, char **argv)
   char *arqSaida = argv[2];
 
   int imagemR[MAX][MAX], imagemG[MAX][MAX], imagemB[MAX][MAX]; // matrizes com os dados RGB dos pixels da imagem de entrada
-  int novaR[MAX][MAX], novaG[MAX][MAX], novaB[MAX][MAX];
-  int linhas, colunas;
+  int novaR[MAX][MAX], novaG[MAX][MAX], novaB[MAX][MAX]; // matrizes com os dados RGB dos pixels da imagem de saida
+  int linhas, colunas; // quantidade de linhas e colunas da imagem lida
 
   scanf("%s", efeito);
 
-  leArquivoEntrada(arqEntrada, imagemR, imagemG, imagemB, &linhas, &colunas); // leitura do arquivo de entrada
+  // leitura do arquivo de entrada
+  leArquivoEntrada(arqEntrada, imagemR, imagemG, imagemB, &linhas, &colunas);
 
+  //verificando operacao a se fazer
   if(strcmp(efeito, "cinza") == 0)
     cinza(imagemR, imagemG, imagemB,
           novaR, novaG, novaB, linhas, colunas);
@@ -55,6 +76,7 @@ int main(int argc, char **argv)
       normalizar(imagemR, imagemG, imagemB,
                  novaR, novaG, novaB, linhas, colunas);
 
+  // escrevendo resultado obtido no arquivo de saida
   escreveArquivoSaida(arqSaida, novaR, novaG, novaB, linhas, colunas);
 
   return 0;
@@ -68,7 +90,6 @@ void leArquivoEntrada(char *arquivoEntrada, int imagemR[MAX][MAX], int imagemG[M
   if(pArqEntrada != NULL)
   {
     char c;
-    //printf("abriu arquivo\n");
 
     do
     {
@@ -126,6 +147,7 @@ void esticar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX]
   int Rmax = imagemR[0][0], Gmax = imagemG[0][0], Bmax = imagemB[0][0];
   int Rmin = imagemR[0][0], Gmin = imagemG[0][0], Bmin = imagemB[0][0];
 
+  //verificando os maximos e minimos
   for(int i=0; i<linhas; i++)
     for(int j=0; j<colunas; j++)
     {
@@ -150,6 +172,7 @@ void esticar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX]
           Bmin = imagemB[i][j];
     }
 
+  //calculo efetivo
   for(int i=0; i<linhas; i++)
     for(int j=0; j<colunas; j++)
     {
@@ -201,6 +224,7 @@ void escreveArquivoSaida(char *arquivoSaida, int novaR[MAX][MAX], int novaG[MAX]
 {
   FILE *pArqSaida = fopen(arquivoSaida, "w");
 
+  //escrevendo headers do arquivo
   fprintf(pArqSaida, "%s", "P3\n");
   fprintf(pArqSaida, "%d", colunas);
   fprintf(pArqSaida, "%c", ' ');
@@ -209,6 +233,7 @@ void escreveArquivoSaida(char *arquivoSaida, int novaR[MAX][MAX], int novaG[MAX]
   fprintf(pArqSaida, "%d", 255);
   fprintf(pArqSaida, "%c", '\n');
 
+  //escrevendo os pixels
   for(int i=0; i<linhas; i++)
   {
     for(int j=0; j<colunas; j++)
