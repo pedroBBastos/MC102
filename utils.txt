@@ -10,3 +10,6 @@ gcc lab16.c lab16_main.c -g -o exec
 gcc -std=c99 -pedantic -Wall -o lab18 lab18.c -lm
 
 gcc -std=c99 -pedantic -Wall -o lab18 lab18.c -lm
+
+erros 18
+    05, 08, 11, 14, 19

@@ -16,7 +16,7 @@ void normalizar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][M
 void escreveArquivoSaida(char *arquivoSaida, int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX],
                          int linhas, int colunas);
 
-int main(int argc, char **argv) 
+int main(int argc, char **argv)
 {
 
   if (argc != 3) 
@@ -25,9 +25,8 @@ int main(int argc, char **argv)
     fprintf(stderr, "./lab18 <arqEntrada> <arqSaida>\n");
     fprintf(stderr, "Usado:");
 
-    for (int i=0; i<argc; i++) {
+    for (int i=0; i<argc; i++)
 	    fprintf(stderr, " %s", argv[i]);
-    }
 
     fprintf(stderr, "\n");
     return 1;
@@ -35,7 +34,7 @@ int main(int argc, char **argv)
 
   char efeito[20];
   char *arqEntrada = argv[1];
-  //char *arqSaida = argv[2];
+  char *arqSaida = argv[2];
 
   int imagemR[MAX][MAX], imagemG[MAX][MAX], imagemB[MAX][MAX]; // matrizes com os dados RGB dos pixels da imagem de entrada
   int novaR[MAX][MAX], novaG[MAX][MAX], novaB[MAX][MAX];
@@ -54,20 +53,9 @@ int main(int argc, char **argv)
               novaR, novaG, novaB, linhas, colunas);
     else
       normalizar(imagemR, imagemG, imagemB,
-          novaR, novaG, novaB, linhas, colunas);
+                 novaR, novaG, novaB, linhas, colunas);
 
-  /*
-  for(int i=0; i<linhas; i++)
-  {
-    for(int j=0; j<colunas; j++)
-    {
-      printf("%d %d %d - ", novaR[i][j], novaG[i][j], novaB[i][j]);
-    }
-    printf("\n");
-  }
-
-  printf("Terminou de ler\n");
-  */
+  escreveArquivoSaida(arqSaida, novaR, novaG, novaB, linhas, colunas);
 
   return 0;
 }
@@ -80,7 +68,7 @@ void leArquivoEntrada(char *arquivoEntrada, int imagemR[MAX][MAX], int imagemG[M
   if(pArqEntrada != NULL)
   {
     char c;
-    printf("abriu arquivo\n");
+    //printf("abriu arquivo\n");
 
     do
     {
@@ -130,8 +118,6 @@ void cinza(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
       novaG[i][j] = value;
       novaB[i][j] = value;
     }
-
-  printf("Printando conteudo lido\n");
 }
 
 void esticar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX],
@@ -145,23 +131,23 @@ void esticar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX]
     {
       if(imagemR[i][j] > Rmax)
         Rmax = imagemR[i][j];
-
-      if(imagemR[i][j] < Rmax)
-        Rmin = imagemR[i][j];
+      else
+        if(imagemR[i][j] < Rmin)
+          Rmin = imagemR[i][j];
 
 
       if(imagemG[i][j] > Gmax)
         Gmax = imagemG[i][j];
-
-      if(imagemG[i][j] < Gmax)
-        Gmin = imagemG[i][j];
+      else
+        if(imagemG[i][j] < Gmin)
+          Gmin = imagemG[i][j];
 
 
       if(imagemB[i][j] > Bmax)
         Bmax = imagemB[i][j];
-
-      if(imagemB[i][j] < Bmax)
-        Bmin = imagemB[i][j];
+      else  
+        if(imagemB[i][j] < Bmin)
+          Bmin = imagemB[i][j];
     }
 
   for(int i=0; i<linhas; i++)
@@ -170,14 +156,20 @@ void esticar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][MAX]
       double sub = Rmax - Rmin;
       if(sub != 0)
         novaR[i][j] = (int)((double)(imagemR[i][j] - Rmin) * 255)/sub;
+      else
+        novaR[i][j] = 0;
 
       sub = Gmax - Gmin;
       if(sub != 0)
         novaG[i][j] = (int)((double)(imagemG[i][j] - Gmin) * 255)/sub;
+      else
+        novaG[i][j] = 0;
 
       sub = Bmax - Bmin;
       if(sub != 0)
         novaB[i][j] = (int)((double)(imagemB[i][j] - Bmin) * 255)/sub;
+      else
+        novaB[i][j] = 0;
     }
 }
 
@@ -202,4 +194,35 @@ void normalizar(int imagemR[MAX][MAX], int imagemG[MAX][MAX], int imagemB[MAX][M
         novaB[i][j] = 0;
       }
     }
+}
+
+void escreveArquivoSaida(char *arquivoSaida, int novaR[MAX][MAX], int novaG[MAX][MAX], int novaB[MAX][MAX],
+                         int linhas, int colunas)
+{
+  FILE *pArqSaida = fopen(arquivoSaida, "w");
+
+  fprintf(pArqSaida, "%s", "P3\n");
+  fprintf(pArqSaida, "%d", colunas);
+  fprintf(pArqSaida, "%c", ' ');
+  fprintf(pArqSaida, "%d", linhas);
+  fprintf(pArqSaida, "%c", '\n');
+  fprintf(pArqSaida, "%d", 255);
+  fprintf(pArqSaida, "%c", '\n');
+
+  for(int i=0; i<linhas; i++)
+  {
+    for(int j=0; j<colunas; j++)
+    {
+      fprintf(pArqSaida, "%d", novaR[i][j]);
+      fprintf(pArqSaida, "%c", ' ');
+      fprintf(pArqSaida, "%d", novaG[i][j]);
+      fprintf(pArqSaida, "%c", ' ');
+      fprintf(pArqSaida, "%d", novaB[i][j]);
+      fprintf(pArqSaida, "%c", ' ');
+    }
+
+    fprintf(pArqSaida, "%c", '\n');
+  }
+
+  fclose(pArqSaida);
 }
