@@ -10,14 +10,3 @@ gcc lab16.c lab16_main.c -g -o exec
 gcc -std=c99 -pedantic -Wall -o lab18 lab18.c -lm
 
 gcc -std=c99 -pedantic -Wall -o lab18 lab18.c -lm
-
-erros 18
-    05, 08, 11, 14, 19
-
-lab 19
-Na chamada recursiva atual devemos incluir cada uma das letras ainda não usadas
-no final de word, e para cada uma destas inclusões marcar a letra como usada e
-chamar recursivamente a função para posicionar a próxima letra.
-
-Um detalhe importante para não gerar palavras repetidas é que as letras a serem incluídas no
-final de word numa chamada recursiva atual devem ser distintas. - Passo 7 do exemplo
